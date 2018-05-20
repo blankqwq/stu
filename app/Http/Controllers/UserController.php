@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -44,16 +45,32 @@ class UserController extends Controller
 
 
     public function index($id){
-
+        $user=User::find($id);
+        $userinfo=$user->getinfo()->get();
+        return view('admin.users',compact('user','userinfo'));
 
     }
 
     public function destroy($id){
-
-
+        $user=User::find($id);
+        if (!$user)
+            return abort('404');
+        $user->delete();
+        if ($user->trashed()) {
+            return response()->json('删除成功');
+        }
     }
 
-    public function update($id){
 
+    /**
+     * 更新资料
+     * @param $id
+     * @param Request $request
+     */
+    public function update($id,Request $request){
+//        更新资料
+        DB::transaction(function () use ($id,$request) {
+            $userinfo = User::find($id)->getinfo()->update($request);
+        });
     }
 }
