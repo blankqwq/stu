@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use App\UserInfo;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -51,6 +53,10 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'agreement'=>'required',
+            'sex'=>'required|string|min:1|max:1',
+        ],[
+            'agreement.required'=>'请接受协议'
         ]);
     }
 
@@ -62,10 +68,30 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+//        $u=$data->only(['email',''])
+//        dd($data);
+        try{
+            $user = User::create([
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+            ]);
+            DB::transaction(function () use ($user,$data) {
+//                $userinfo=UserInfo::create([
+//                    'name' => $data['name'],
+//                    'sex' => $data['sex'],
+//                ]);
+
+
+                $user->getinfo()->create([
+                    'name' => $data['name'],
+                    'sex' => $data['sex'],
+                ]);
+                // 绑定用户为学生权限
+                $user->attachRole(4);
+            });
+        }catch (\Exception $exception){
+           return  abort('403');
+        }
+        return $user;
     }
 }
