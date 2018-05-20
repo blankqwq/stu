@@ -39,10 +39,16 @@ class Userseeder extends Seeder
 
 //        设定权限
         $createhome = new \App\Permission();
-        $createhome->name = 'create-homework';
-        $createhome->display_name = '创建作业';
+        $createhome->name = 'manage-homework';
+        $createhome->display_name = '管理作业';
         $createhome->description = '当然包括四大基本权限';
         $createhome->save();
+
+        $edithome = new \App\Permission();
+        $edithome->name = 'edit-homework';
+        $edithome->display_name = '管理作业';
+        $edithome->description = '当然包括四大基本权限';
+        $edithome->save();
 
         $editUser = new \App\Permission();
         $editUser->name = 'edit-user';
@@ -51,7 +57,7 @@ class Userseeder extends Seeder
         $editUser->save();
 
         $managerUser = new \App\Permission();
-        $managerUser->name = 'manager-user';
+        $managerUser->name = 'manage-user';
         $managerUser->display_name = '管理用户';
         $managerUser->description = '当然包括四大基本权限';
         $managerUser->save();
@@ -62,10 +68,23 @@ class Userseeder extends Seeder
         $default->description = '查看作业，申请休假，等等';
         $default->save();
 
-        $owner->attachPermission($createhome,$default,$managerUser,$editUser);
+        $manageClass = new \App\Permission();
+        $manageClass->name = 'manager-class';
+        $manageClass->display_name = '管理班级';
+        $manageClass->description = '管理全部班级，创建审核等等';
+        $manageClass->save();
+
+        $editClass = new \App\Permission();
+        $editClass->name = 'edit-class';
+        $editClass->display_name = '编辑班级';
+        $editClass->description = '编辑部分班级';
+        $editClass->save();
+
+
+        $owner->attachPermission($createhome,$default,$managerUser,$editUser,$manageClass);
 //等价于 $owner->perms()->sync(array($createPost->id));
 
-        $admin->attachPermissions(array($createhome, $editUser,$default,$managerUser));
+        $admin->attachPermissions(array($createhome, $editUser,$default,$managerUser,$manageClass));
 
         $teacher->attachPermission(array($editUser,$createhome,$default));
 

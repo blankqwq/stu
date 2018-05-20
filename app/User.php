@@ -30,6 +30,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    //获取对应的班级
+    public function classes(){
+        return $this->belongsToMany(Classes::class,'user_classes','user_id','class_id');
+    }
 
     public function getinfo(){
         return $this->hasOne(UserInfo::class,'user_id','id');
