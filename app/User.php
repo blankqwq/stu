@@ -2,12 +2,14 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
 {
+    use SoftDeletes;
     use Notifiable;
     use EntrustUserTrait;
 
@@ -17,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email', 'password',
     ];
 
     /**
@@ -28,4 +30,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    //获取对应的班级
+    public function classes(){
+        return $this->belongsToMany(Classes::class,'user_classes','user_id','class_id');
+    }
+
+    public function getinfo(){
+        return $this->hasOne(UserInfo::class,'user_id','id');
+    }
 }

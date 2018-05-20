@@ -51,6 +51,14 @@
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
+                <label class="radio-inline">
+                    <input type="radio" name="sex" id="inlineRadio1" value="男"> 男
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="sex" id="inlineRadio2" value="女"> 女
+                </label>
+            </div>
+            <div class="form-group has-feedback">
                 <input type="email" class="form-control" placeholder="邮箱"  value="{{ old('email') }}" name="email">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
@@ -66,7 +74,7 @@
                 <div class="col-xs-8">
                     <div class="checkbox icheck">
                         <label>
-                            <input type="checkbox"> 我同意这个 <a href="#">管理协议</a>
+                            <input type="checkbox" name="agreement"> 我同意这个 <a href="#">管理协议</a>
                         </label>
                     </div>
                 </div>

@@ -43,6 +43,7 @@ class CreateClassesTable extends Migration
             $table->unsignedBigInteger('class_id')->comment('班级id');
             $table->string('category')->comment('班级类型');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -55,5 +56,6 @@ class CreateClassesTable extends Migration
     {
         Schema::dropIfExists('classes');
         Schema::dropIfExists('user_classes');
+        Schema::dropIfExists('class_type');
     }
 }
