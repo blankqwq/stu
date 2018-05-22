@@ -79,15 +79,15 @@ class UserController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $user = User::find($id);
-        if (!$user)
-            Session::flash('message', '未找到传说中的用户');
-        $user->delete();
-        if ($user->trashed()) {
-            return response()->json('删除成功');
+        $ids=$request->input('ids');
+        foreach ($ids as $id){
+            $user = User::find($id);
+            $user->delete();
+            $delid[]=$id;
         }
+        return redirect('/all/users');
     }
 
 
@@ -105,8 +105,6 @@ class UserController extends Controller
             $avatar=Storage::disk('public')->putfile('upload',$request->file('avatar'));
             $input['avatar']='/storage/'.$avatar;
         }
-
-
         DB::transaction(function () use ($id, $input) {
             $userinfo = User::find($id)->getinfo()->update($input);
         });
@@ -119,11 +117,14 @@ class UserController extends Controller
      * 根据用户姓名查询用户
      */
     public function search(Request $request){
-        $user=UserInfo::where('name','like','%'.$request->input('name').'%');
-        dd($user);
-        return view('admin.users',compact('user'));
+        $users=User::with('getinfo')->where('email','like','%'.$request->input('search').'%')->paginate(15);
+        return view('admin.usersall',compact('users'));
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * 获取全部的数据
+     */
     public function all(){
 //        dd(123);
         $users=User::with('getinfo')->paginate(15);

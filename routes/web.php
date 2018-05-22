@@ -30,12 +30,14 @@ Route::group(['middleware'=>'auth'],function (){
     #_____________________________用户管理___________________________
     //查看自己的资料
     Route::get('users/me','UserController@me');
+    //搜索人
+    Route::post('users/search','UserController@search');
     //修改自己的资料
     Route::put('users/me','UserController@store');
     //用户管理高级管理（需要权限,删除和修改）
     Route::group(['middleware'=>'permission:manage-user'],function (){
         //删除用户（’设定未高级权限‘）
-        Route::delete('users/{id}','UserController@destroy');
+        Route::delete('users/del','UserController@destroy');
         //查询用户资料
         Route::get('users/{id}','UserController@index');
         //赋予权限
