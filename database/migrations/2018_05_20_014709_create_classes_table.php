@@ -17,7 +17,6 @@ class CreateClassesTable extends Migration
         Schema::create('classes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->comment('班级名字');
-            $table->unsignedInteger('type')->comment('班级类型');
             $table->unsignedBigInteger('user_id')->comment('头目or创建者id');
             $table->unsignedInteger('number')->comment('数量');
             $table->string('password')->nullable()->comment('加入班级密码');
@@ -40,7 +39,7 @@ class CreateClassesTable extends Migration
         //班级类型表
         Schema::create('class_type', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('class_id')->comment('班级id');
+            $table->unsignedInteger('class_id')->comment('关联班级');
             $table->string('category')->comment('班级类型');
             $table->timestamps();
             $table->softDeletes();

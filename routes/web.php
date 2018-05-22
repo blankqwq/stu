@@ -24,33 +24,39 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 ############仅仅只需要登陆的路由
 Route::group(['middleware'=>'auth'],function (){
+    #___________________________文件上传
+    Route::post('upload',' FunctionController@upload');
 
     #_____________________________用户管理___________________________
     //查看自己的资料
     Route::get('users/me','UserController@me');
-    //查询用户资料
-    Route::get('users/{id}','UserController@index');
     //修改自己的资料
-    Route::post('users/me','UserController@store');
+    Route::put('users/me','UserController@store');
     //用户管理高级管理（需要权限,删除和修改）
-    Route::group(['middleware'=>'permission:edit-user'],function (){
+    Route::group(['middleware'=>'permission:manage-user'],function (){
         //删除用户（’设定未高级权限‘）
         Route::delete('users/{id}','UserController@destroy');
+        //查询用户资料
+        Route::get('users/{id}','UserController@index');
         //赋予权限
         Route::put('users/{id}','UserController@update');
+
+        Route::get('all/users','UserController@all');
     });
 
 
 
     #______________________班级管理__________________________________
     //查询已经加入的班级
-    Route::get('classes','ClassController@me');
+    Route::get('classes/me','ClassController@me');
 
     //查询全部班级
     Route::get('classes/all','ClassController@all');
 
     //查询指定班级
-    Route::get('classes/{id}','ClassController@search');
+    Route::get('classes/search','ClassController@search');
+
+    Route::get('classes/{id}','ClassController@index');
 
     //加入某班级
     Route::post('classes/{id}','ClassController@join');
@@ -59,7 +65,7 @@ Route::group(['middleware'=>'auth'],function (){
         //删除班级
         Route::delete('classes','ClassController@destroy');
         //申请创建小团体or班级
-        Route::post('classes/{id}','ClassController@create');
+        Route::post('classes','ClassController@create');
         //修改班级信息
         Route::put('classes','ClassController@update');
         //删除班级指定成员

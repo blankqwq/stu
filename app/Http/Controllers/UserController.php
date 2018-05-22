@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\UserInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -18,12 +20,14 @@ class UserController extends Controller
     public function me()
     {
         try {
-            $user = Auth::user();
-            $userinfo = $user->getinfo()->get();
+            $users = Auth::user();
+            $user_info = $users->getinfo()->first();
         } catch (\Exception $exception) {
             abort('404');
         }
-        return view('admin.users', compact('user', 'userinfo'));
+//        dd(compact('user', 'userinfo'));
+//        dd($user_info);
+        return view('admin.users', compact('users', 'user_info'));
     }
 
     /**
@@ -33,27 +37,45 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $input=$request->only('name','password','sign');
+        if ($request->hasFile('avatar')){
+            $avatar=Storage::disk('public')->putfile('upload',$request->file('avatar'));
+            $input['avatar']='/storage/'.$avatar;
+        }
+//        dd($request->file('avatar'));
+//        $avatar=Storage::disk('public')->putfile('upload',$request->file('avatar'));
+//        dd($input);
         try {
-            DB::transaction(function () use ($request) {
+            DB::transaction(function () use ($input) {
                 $user = User::find(Auth::id());
-                $user->getinfo()->update($request);
+                $user->getinfo()->update($input);
             });
         } catch (\Exception $exception) {
             abort('403');
         }
-        return 'ojbk';
+        return redirect('users/me');
     }
 
 
+    /**
+     * 查询用户
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index($id)
     {
-        $user = User::find($id);
-        $userinfo = $user->getinfo()->get();
-        return view('admin.users', compact('user', 'userinfo'));
+        $users = User::find($id);
+        if (!$users)
+            abort('404');
+
+        $user_info = $users->getinfo()->first();
+//        dd(compact('user', 'userinfo'));
+        return view('admin.users', compact('users', 'user_info'));
 
     }
 
     /**
+     * 删除用户
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
@@ -70,6 +92,7 @@ class UserController extends Controller
 
 
     /***
+     * 更新用户资料
      * @param $id
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -77,9 +100,33 @@ class UserController extends Controller
     public function update($id, Request $request)
     {
 //        更新资料
-        DB::transaction(function () use ($id, $request) {
-            $userinfo = User::find($id)->getinfo()->update($request);
+        $input=$request->only('name','password','sign');
+        if ($request->hasFile('avatar')){
+            $avatar=Storage::disk('public')->putfile('upload',$request->file('avatar'));
+            $input['avatar']='/storage/'.$avatar;
+        }
+
+
+        DB::transaction(function () use ($id, $input) {
+            $userinfo = User::find($id)->getinfo()->update($input);
         });
         return redirect("users/$id");
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * 根据用户姓名查询用户
+     */
+    public function search(Request $request){
+        $user=UserInfo::where('name','like','%'.$request->input('name').'%');
+        dd($user);
+        return view('admin.users',compact('user'));
+    }
+
+    public function all(){
+//        dd(123);
+        $users=User::with('getinfo')->paginate(15);
+        return view('admin.usersall',compact('users'));
     }
 }
