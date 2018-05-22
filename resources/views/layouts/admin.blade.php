@@ -9,7 +9,7 @@
 @include('particles.siderbar')
 
     <div class="content-wrapper">
-
+    @section('content')
         <section class="content-header">
             <h1>
                 Dashboard
@@ -538,13 +538,14 @@
             <!-- /.row (main row) -->
 
         </section>
+        @show
     </div>
+
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
-            <b>Version</b> 2.4.0
+            <b>Version</b> 1.1.1
         </div>
-        <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-        reserved.
+        <strong>Copyright &copy; 2018 <a href="/">blank</a></strong>
     </footer>
     @include('particles.hsider')
     <div class="control-sidebar-bg"></div>
