@@ -70,10 +70,10 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> 我的班级</a></li>
-                    <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i>班级成员</a></li>
-                    <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> 创建班级</a></li>
-                    <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> 班级管理</a></li>
+                    <li><a href="/classes/me"><i class="fa fa-circle-o"></i> 我的班级</a></li>
+                    <li><a href="/classes/number"><i class="fa fa-circle-o"></i>班级成员</a></li>
+                    <li><a href="/classes/create"><i class="fa fa-circle-o"></i> 创建班级</a></li>
+                    <li><a href="/classes/manage"><i class="fa fa-circle-o"></i> 班级管理</a></li>
                 </ul>
             </li>
             <li class="treeview">
