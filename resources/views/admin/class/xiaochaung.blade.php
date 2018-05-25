@@ -64,11 +64,9 @@
                         不需要
                     @endif</a>
             </li>
-            {{--@if($classes->pivot->user_id)--}}
             <li class="list-group-item">
                 <b>加入班级</b> <a class="pull-right" href="/join/{{ $classes->id }}">点击申请</a>
             </li>
-                {{--@endif--}}
         </ul>
         @if(\Illuminate\Support\Facades\Auth::id() === $classes->boss->id or \Illuminate\Support\Facades\Auth::user()->can('manage-class'))
             <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">修改班级资料

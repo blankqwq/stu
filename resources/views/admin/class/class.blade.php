@@ -26,8 +26,7 @@
                             <b>创建时间：</b> <a class="pull-right">{{ $classes->name }}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>创建者</b> <a class="pull-right"
-                                          href="/users/{{ $classes->boss->id }}">{{ $classes->boss->email }}</a>
+                            <b>创建者</b> <a class="pull-right" href="/users/{{ $classes->boss->id }}">{{ $classes->boss->email }}</a>
                         </li>
                         <li class="list-group-item">
                             <b>类型</b>
@@ -39,17 +38,15 @@
                         <li class="list-group-item">
                             <b>是否需要密码</b> <a class="pull-right">
                                 @if($classes->verification==0)
-                                    需要
-                                @endif</a>
+                                            需要
+                            @endif</a>
                         </li>
                         <li class="list-group-item">
                             <b>是否需要认证</b> <a class="pull-right">{{ $classes->verification }}</a>
                         </li>
-                        @if($classes->id)
-                            <li class="list-group-item">
-                                <b>加入班级</b> <a class="pull-right">点击申请加入</a>
-                            </li>
-                        @endif
+                        <li class="list-group-item">
+                            <b>加入班级</b> <a class="pull-right">点击申请加入</a>
+                        </li>
                     </ul>
                     @if(\Illuminate\Support\Facades\Auth::id() === $classes->boss->id or \Illuminate\Support\Facades\Auth::user()->can('manage-class'))
                         <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">修改班级资料
