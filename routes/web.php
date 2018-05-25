@@ -30,6 +30,8 @@ Route::group(['middleware'=>'auth'],function (){
     #_____________________________用户管理___________________________
     //查看自己的资料
     Route::get('users/me','UserController@me');
+    //搜索界面
+    Route::get('users/search','UserController@searchindex');
     //搜索人
     Route::post('users/search','UserController@search');
     //修改自己的资料
