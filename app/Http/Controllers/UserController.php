@@ -134,4 +134,13 @@ class UserController extends Controller
         $users=User::with('getinfo')->paginate(15);
         return view('admin.usersall',compact('users'));
     }
+
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * 查询界面的获取
+     */
+    public function searchindex(){
+        return view('admin.user.search');
+    }
 }

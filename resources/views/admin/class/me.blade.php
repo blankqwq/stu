@@ -86,9 +86,9 @@
                                         <td>{{ $classe->number }}</td>
                                         <td>{{$classe->boss->email }}</td>
                                         <td><a href="/classes/{{ $classe->id }}" id="read"><span
-                                                        class="label label-warning">查看</span></a>
+                                                        class="label label-warning">详情</span></a>
                                             <a href=""><span
-                                                        class="label label-success">权限</span>
+                                                        class="label label-success"></span>
                                             </a>
                                         </td>
                                     </tr>
