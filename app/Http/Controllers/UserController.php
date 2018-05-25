@@ -70,7 +70,7 @@ class UserController extends Controller
 
         $user_info = $users->getinfo()->first();
 //        dd(compact('user', 'userinfo'));
-        return view('admin.users', compact('users', 'user_info'));
+        return view('admin.user.manage', compact('users', 'user_info'));
 
     }
 
@@ -84,8 +84,10 @@ class UserController extends Controller
         $ids=$request->input('ids');
         foreach ($ids as $id){
             $user = User::find($id);
-            $user->delete();
-            $delid[]=$id;
+            if ($user){
+                $user->delete();
+                $delid[]=$id;
+            }
         }
         return redirect('/all/users');
     }
@@ -105,10 +107,12 @@ class UserController extends Controller
             $avatar=Storage::disk('public')->putfile('upload',$request->file('avatar'));
             $input['avatar']='/storage/'.$avatar;
         }
+        if (!User::find($id))
+            return abort('404');
         DB::transaction(function () use ($id, $input) {
             $userinfo = User::find($id)->getinfo()->update($input);
         });
-        return redirect("users/$id");
+        return redirect('/all/users');
     }
 
     /**

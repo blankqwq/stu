@@ -69,7 +69,7 @@ class Userseeder extends Seeder
         $default->save();
 
         $manageClass = new \App\Permission();
-        $manageClass->name = 'manager-class';
+        $manageClass->name = 'manage-class';
         $manageClass->display_name = '管理班级';
         $manageClass->description = '管理全部班级，创建审核等等';
         $manageClass->save();
@@ -81,7 +81,7 @@ class Userseeder extends Seeder
         $editClass->save();
 
 
-        $owner->attachPermission($createhome,$default,$managerUser,$editUser,$manageClass);
+        $owner->attachPermission(\App\Permission::all());
 //等价于 $owner->perms()->sync(array($createPost->id));
 
         $admin->attachPermissions(array($createhome, $editUser,$default,$managerUser,$manageClass));

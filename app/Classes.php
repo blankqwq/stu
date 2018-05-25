@@ -18,4 +18,8 @@ class Classes extends Model
     public function types(){
         return $this->hasMany(ClassType::class,'class_id','id');
     }
+
+    public function boss(){
+        return $this->hasOne(User::class,'id','user_id');
+    }
 }

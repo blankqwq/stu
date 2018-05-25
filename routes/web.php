@@ -36,12 +36,13 @@ Route::group(['middleware'=>'auth'],function (){
     Route::put('users/me','UserController@store');
     //用户管理高级管理（需要权限,删除和修改）
     Route::group(['middleware'=>'permission:manage-user'],function (){
-        //删除用户（’设定未高级权限‘）
-        Route::delete('users/del','UserController@destroy');
         //查询用户资料
         Route::get('users/{id}','UserController@index');
-        //赋予权限
+        //更新资料
         Route::put('users/{id}','UserController@update');
+        //删除用户（’设定未高级权限‘）
+        Route::delete('users/del','UserController@destroy');
+
 
         Route::get('all/users','UserController@all');
     });
@@ -53,7 +54,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('classes/me','ClassController@me');
 
     //查询全部班级
-    Route::get('classes/all','ClassController@all');
+    Route::get('all/classes','ClassController@all');
 
     //查询指定班级
     Route::get('classes/search','ClassController@search');
