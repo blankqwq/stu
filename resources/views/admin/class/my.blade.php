@@ -4,8 +4,8 @@
 
     <section class="content-header">
         <h1>
-            用户管理
-            <small>Control panel</small>
+            班级审核
+            <small>审核所有班级</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -21,7 +21,7 @@
                         type: "GET",
                         url: this.href,
                         success: function () {
-                            $("html,body").animate({scrollTop:0},800);
+                            $("html,body").animate({scrollTop: 0}, 800);
                             var data = htmlobj.responseText;
                             $('#class-content').empty();
                             $("#class-content").html(htmlobj.responseText);
@@ -42,20 +42,21 @@
             <div class="col-md-8">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">我加入的班级</h3>
+                        <h3 class="box-title">全部班级</h3>
                         <div class="box-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                {{ csrf_field() }}
-                                <input type="text" name="search" class="form-control pull-right"
-                                       placeholder="Search">
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            <form action="/classes/search" method="post">
+                                <div class="input-group input-group-sm" style="width: 150px;">
 
+                                    {{ csrf_field() }}
+                                    <input type="text" name="name" class="form-control pull-right"
+                                           placeholder="班级名">
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
 
                                 </div>
-
-                            </div>
-
+                            </form>
                         </div>
                     </div>
                     <div class="box-body table-responsive no-padding">
@@ -65,9 +66,10 @@
                                     <th>#</th>
                                     <th>班级名</th>
                                     <th>类型</th>
-                                    <th>加入时间</th>
+                                    <th>创建时间</th>
                                     <th>班级人数</th>
                                     <th>班级bossemail</th>
+                                    <th>审核</th>
                                     <th>操作</th>
                                 </tr>
                                 {{ csrf_field() }}
@@ -79,17 +81,38 @@
                                             @endif</td>
                                         <td>{{ $classe->name }}</td>
                                         <td>
-                                        @foreach($classe->types as $type)
+                                            @foreach($classe->types as $type)
                                                 {{ $type->category }}
-                                        @endforeach</td>
-                                        <td>{{ $classe->pivot->created_at }}</td>
+                                            @endforeach</td>
+                                        <td>{{ $classe->created_at }}</td>
                                         <td>{{ $classe->number }}</td>
                                         <td>{{$classe->boss->email }}</td>
+                                        <td>
+
+
+                                           <?php
+                                            if($classe->user_allow!=0)
+                                                echo '<span class="label label-success">
+                                                           审核成功</span>';
+
+                                            if($classe->user_allow===0)
+                                                echo '<span class="label label-danger">
+                                                            未通过</span>';
+
+                                            if($classe->user_allow===null)
+                                                echo '<span class="label label-warning">
+                                                        待审核</span>';
+
+                                            ?>
+                                        </td>
                                         <td><a href="/classes/{{ $classe->id }}" id="read"><span
                                                         class="label label-warning">查看</span></a>
-                                            <a href="/class/{{ $classe->id }}"><span
-                                                        class="label label-success">成员查看</span>
-                                            </a>
+                                            @if($classe->user_allow!=0)
+                                                <a href="/class/{{ $classe->id }}"><span
+                                                            class="label label-success">成员查看</span>
+                                                </a>
+                                            @endif
+
                                         </td>
                                     </tr>
                                 @endforeach

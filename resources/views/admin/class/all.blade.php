@@ -21,7 +21,7 @@
                         type: "GET",
                         url: this.href,
                         success: function () {
-                            $("html,body").animate({scrollTop:0},800);
+                            $("html,body").animate({scrollTop: 0}, 800);
                             var data = htmlobj.responseText;
                             $('#class-content').empty();
                             $("#class-content").html(htmlobj.responseText);
@@ -42,20 +42,21 @@
             <div class="col-md-8">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">我加入的班级</h3>
+                        <h3 class="box-title">全部班级</h3>
                         <div class="box-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                {{ csrf_field() }}
-                                <input type="text" name="search" class="form-control pull-right"
-                                       placeholder="Search">
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            <form action="/classes/search" method="post">
+                                <div class="input-group input-group-sm" style="width: 150px;">
 
+                                    {{ csrf_field() }}
+                                    <input type="text" name="name" class="form-control pull-right"
+                                           placeholder="班级名">
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
 
                                 </div>
-
-                            </div>
-
+                            </form>
                         </div>
                     </div>
                     <div class="box-body table-responsive no-padding">
@@ -65,7 +66,7 @@
                                     <th>#</th>
                                     <th>班级名</th>
                                     <th>类型</th>
-                                    <th>加入时间</th>
+                                    <th>创建时间</th>
                                     <th>班级人数</th>
                                     <th>班级bossemail</th>
                                     <th>操作</th>
@@ -79,10 +80,10 @@
                                             @endif</td>
                                         <td>{{ $classe->name }}</td>
                                         <td>
-                                        @foreach($classe->types as $type)
+                                            @foreach($classe->types as $type)
                                                 {{ $type->category }}
-                                        @endforeach</td>
-                                        <td>{{ $classe->pivot->created_at }}</td>
+                                            @endforeach</td>
+                                        <td>{{ $classe->created_at }}</td>
                                         <td>{{ $classe->number }}</td>
                                         <td>{{$classe->boss->email }}</td>
                                         <td><a href="/classes/{{ $classe->id }}" id="read"><span

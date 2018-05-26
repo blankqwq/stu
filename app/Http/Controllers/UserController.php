@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes;
 use App\User;
 use App\UserInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -39,7 +41,7 @@ class UserController extends Controller
     {
         $input=$request->only('name','password','sign');
         if ($request->hasFile('avatar')){
-            $avatar=Storage::disk('public')->putfile('upload',$request->file('avatar'));
+            $avatar=Storage::disk('public')->putfile('upload/user',$request->file('avatar'));
             $input['avatar']='/storage/'.$avatar;
         }
 //        dd($request->file('avatar'));
@@ -53,6 +55,8 @@ class UserController extends Controller
         } catch (\Exception $exception) {
             abort('403');
         }
+        //刷新缓存
+        Cache::forget('userinfo'.Auth::id());
         return redirect('users/me');
     }
 
@@ -104,7 +108,7 @@ class UserController extends Controller
 //        更新资料
         $input=$request->only('name','password','sign');
         if ($request->hasFile('avatar')){
-            $avatar=Storage::disk('public')->putfile('upload',$request->file('avatar'));
+            $avatar=Storage::disk('public')->putfile('upload/user',$request->file('avatar'));
             $input['avatar']='/storage/'.$avatar;
         }
         if (!User::find($id))
@@ -112,6 +116,7 @@ class UserController extends Controller
         DB::transaction(function () use ($id, $input) {
             $userinfo = User::find($id)->getinfo()->update($input);
         });
+        Cache::forget('userinfo'.$id);
         return redirect('/all/users');
     }
 
@@ -121,7 +126,7 @@ class UserController extends Controller
      * 根据用户姓名查询用户
      */
     public function search(Request $request){
-        $users=User::with('getinfo')->where('email','like','%'.$request->input('search').'%')->paginate(15);
+        $users=User::with('getinfo','roles')->where('email','like','%'.$request->input('search').'%')->paginate(15);
         return view('admin.usersall',compact('users'));
     }
 
@@ -131,7 +136,13 @@ class UserController extends Controller
      */
     public function all(){
 //        dd(123);
-        $users=User::with('getinfo')->paginate(15);
+        $users=User::with('getinfo','roles')->paginate(15);
         return view('admin.usersall',compact('users'));
     }
+
+    public function searchindex(){
+        return view('admin.user.search');
+    }
+
+
 }

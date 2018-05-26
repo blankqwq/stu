@@ -70,10 +70,11 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/classes/me"><i class="fa fa-circle-o"></i> 我的班级</a></li>
-                    <li><a href="/classes/number"><i class="fa fa-circle-o"></i>班级成员</a></li>
+                    <li><a href="/classes/number"><i class="fa fa-circle-o"></i>班级内务</a></li>
                     <li><a href="/classes/create"><i class="fa fa-circle-o"></i> 创建班级</a></li>
-                    <li><a href="/classes/manage"><i class="fa fa-circle-o"></i> 班级管理</a></li>
+                    <li><a href="/all/classes"><i class="fa fa-circle-o"></i> 全部班级</a></li>
+                    <li><a href="/classes/verify"><i class="fa fa-circle-o"></i> 审批班级</a></li>
+                    <li><a href="/classes/my"><i class="fa fa-circle-o"></i> 我的的班级</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -101,12 +102,9 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> General</a></li>
-                    <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>
-                    <li><a href="pages/UI/buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
-                    <li><a href="pages/UI/sliders.html"><i class="fa fa-circle-o"></i> Sliders</a></li>
-                    <li><a href="pages/UI/timeline.html"><i class="fa fa-circle-o"></i> Timeline</a></li>
-                    <li><a href="pages/UI/modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
+                    <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> 已读消息</a></li>
+                    <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> 未读消息</a></li>
+                    <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> 发布消息</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -117,9 +115,9 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
-                    <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
-                    <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+                    <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> 在线提问</a></li>
+                    <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> 问题列表</a></li>
+                    <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> 系统管理</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -130,8 +128,10 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-                    <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> 时间管理（课表系统）</a></li>
+                    <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> 最近任务</a></li>
+                    <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> 在线测试</a></li>
+                    <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> 答题管理</a></li>
+                    <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> 发布答题</a></li>
                 </ul>
             </li>
             <li>
@@ -161,15 +161,8 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Invoice</a></li>
-                    <li><a href="pages/examples/profile.html"><i class="fa fa-circle-o"></i> Profile</a></li>
-                    <li><a href="pages/examples/login.html"><i class="fa fa-circle-o"></i> Login</a></li>
-                    <li><a href="pages/examples/register.html"><i class="fa fa-circle-o"></i> Register</a></li>
-                    <li><a href="pages/examples/lockscreen.html"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
-                    <li><a href="pages/examples/404.html"><i class="fa fa-circle-o"></i> 404 Error</a></li>
-                    <li><a href="pages/examples/500.html"><i class="fa fa-circle-o"></i> 500 Error</a></li>
-                    <li><a href="pages/examples/blank.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>
-                    <li><a href="pages/examples/pace.html"><i class="fa fa-circle-o"></i> Pace Page</a></li>
+                    <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> 班级文件</a></li>
+                    <li><a href="pages/examples/profile.html"><i class="fa fa-circle-o"></i> 我的文件</a></li>
                 </ul>
             </li>
             <li class="header">LABELS</li>

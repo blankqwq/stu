@@ -16,6 +16,7 @@ class CreateClassesTable extends Migration
         //班级表
         Schema::create('classes', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('avatar')->default('/storage/upload/class/default.png')->comment('班级名字');
             $table->string('name')->comment('班级名字');
             $table->unsignedBigInteger('user_id')->comment('头目or创建者id');
             $table->unsignedInteger('number')->comment('数量');
@@ -36,14 +37,22 @@ class CreateClassesTable extends Migration
             $table->timestamps();
         });
 
-        //班级类型表
+        //班级类型中间表（多对多关系）
+        Schema::create('class_t', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('class_id');
+            $table->unsignedInteger('type_id');
+            $table->softDeletes();
+        });
+
+        //班级类型
         Schema::create('class_type', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('class_id')->comment('关联班级');
             $table->string('category')->comment('班级类型');
             $table->timestamps();
             $table->softDeletes();
         });
+
     }
 
     /**
@@ -55,6 +64,7 @@ class CreateClassesTable extends Migration
     {
         Schema::dropIfExists('classes');
         Schema::dropIfExists('user_classes');
+        Schema::dropIfExists('class_t');
         Schema::dropIfExists('class_type');
     }
 }

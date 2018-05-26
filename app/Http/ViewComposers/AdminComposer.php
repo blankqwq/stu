@@ -10,14 +10,17 @@ namespace App\Http\ViewComposers;
 
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class AdminComposer
 {
 
     public function compose(View $view) {
-        $user=Auth::user();
-        $userinfo=$user->getinfo()->first();
+
+        $userinfo = Cache::remember('userinfo'.Auth::id(), 10, function() {
+            return Auth::user()->getinfo()->first();
+        });
         $view->with(compact('userinfo'));//填充数据
     }
 }

@@ -81,7 +81,7 @@ class Userseeder extends Seeder
         $editClass->save();
 
 
-        $owner->attachPermission(\App\Permission::all());
+        $owner->attachPermission($createhome, $editUser,$default,$managerUser,$manageClass);
 //等价于 $owner->perms()->sync(array($createPost->id));
 
         $admin->attachPermissions(array($createhome, $editUser,$default,$managerUser,$manageClass));

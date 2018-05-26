@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Classes extends Model
 {
     use SoftDeletes;
-    protected $fillable=['name','type', 'user_id', 'number', 'password','verification','user_allow'];
+    protected $fillable=['avatar','name','type', 'user_id', 'number', 'password','verification','user_allow'];
     protected $table='classes';
 
     /**
@@ -16,10 +16,22 @@ class Classes extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function types(){
-        return $this->hasMany(ClassType::class,'class_id','id');
+        return $this->belongsToMany(ClassType::class,'class_t','class_id','type_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * 获取班级boss
+     */
     public function boss(){
         return $this->hasOne(User::class,'id','user_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * 获取用户
+     */
+    public function users(){
+        return $this->belongsToMany(User::class,'user_classes','class_id','user_id');
     }
 }
