@@ -42,7 +42,7 @@
             <div class="col-md-8">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">用户表</h3>
+                        <h3 class="box-title">{{$classe->name}}班级用户表</h3>
                         <div class="box-tools">
                             <form action="/users/search" method="post">
                                 <div class="input-group input-group-sm" style="width: 150px;">
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <div class="box-body table-responsive no-padding">
-                        <form action="/users/del" method="post">
+                        <form action="/classes/deluser/{{$classe->id}}" method="post">
                             <table class="table table-hover">
                                 <tr>
                                     <th>#</th>
@@ -75,7 +75,8 @@
                                 {{ method_field('delete') }}
                                 @foreach($users as $user)
                                     <tr>
-                                        <td>@if(\Illuminate\Support\Facades\Auth::id()!==$user->id)
+                                        <td>
+                                            @if(\Illuminate\Support\Facades\Auth::id()!==$user->id)
                                                 <input type="checkbox" value="{{ $user->id }}" name="ids[]">
                                             @endif</td>
                                         <td>{{ $user->getinfo->name }}</td>
@@ -83,10 +84,10 @@
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->created_at }}</td>
                                         <td>
-                                            <?php $i=0?>
+                                            <?php $i = 0?>
                                             @foreach($user->roles as $role)
                                                 <?php
-                                                    $i++;?>
+                                                $i++;?>
                                                 @if($i>2)
                                                     @break
                                                 @endif
@@ -108,9 +109,9 @@
                             </table>
 
                             <div class="box-footer">
-                                <button class="btn btn-google btn-sm ">删除用户</button>
+                                <button class="btn btn-google btn-sm ">从班级中删除</button>
                                 <button onclick="$('#users-content').empty();" type="button"
-                                        class="btn btn-facebook btn-sm " data-toggle="modal" data-target="#myModal">创建用户
+                                        class="btn btn-facebook btn-sm " data-toggle="modal" data-target="#myModal">邀请
                                 </button>
                                 <!-- 模态框（Modal） -->
 
@@ -125,59 +126,7 @@
             <div class="col-md-4" id="users-content">
 
             </div>
-            <!-- 模态框（Modal） -->
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog">
 
-                    <form action="{{ url()->current() }}" method="post" enctype="multipart/form-data">
-                        {{ csrf_field() }}
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                    &times;
-                                </button>
-                                <h4 class="modal-title" id="myModalLabel">修改用户资料</h4>
-                            </div>
-                            <div class="modal-body">
-
-                                {{--<div class="form-group">--}}
-                                {{--<div class="col-xs-12 text-center">--}}
-                                {{--<img src="{{ $user_info->avatar }}" id="avatarImg"--}}
-                                {{--class="profile-user-img img-responsive img-circle"/>--}}
-                                {{--<input type="file" name="avatar" id="pic" class="center-block"/>--}}
-                                {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="form-group">--}}
-                                {{--<label for="name">姓名</label>--}}
-                                {{--<input type="text" class="form-control" id="name" placeholder="姓名" name="name"--}}
-                                {{--value="{{ $user_info->name }}">--}}
-                                {{--</div>--}}
-                                {{--<div class="form-group">--}}
-                                {{--<label for="sign">个性签名</label>--}}
-                                {{--<input type="text" class="form-control" id="sign" placeholder="个性签名" name="sign"--}}
-                                {{--value="{{ $user_info->sign }}">--}}
-                                {{--</div>--}}
-                                {{--<div class="form-group">--}}
-                                {{--<label for="exampleInputPassword1">老密码</label>--}}
-                                {{--<input type="password" class="form-control" id="exampleInputPassword1" name="old_password"--}}
-                                {{--placeholder="Password">--}}
-                                {{--</div>--}}
-                                {{--<div class="form-group">--}}
-                                {{--<label for="exampleInputPassword1">新密码</label>--}}
-                                {{--<input type="password" class="form-control" id="exampleInputPassword1" name="new_password"--}}
-                                {{--placeholder="Password">--}}
-                                {{--</div>--}}
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                                    </button>
-                                    <button type="submit" class="btn btn-primary">确认创建</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div><!-- /.modal -->
-            </div>
         </div>
 
 

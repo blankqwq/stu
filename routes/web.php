@@ -28,6 +28,10 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('upload','FunctionController@upload');
 
     #_____________________________用户管理___________________________
+
+    //用户管理高级管理（需要权限,删除和修改）
+
+
     //查看自己的资料
     Route::get('users/me','UserController@me');
     //搜索人
@@ -40,7 +44,6 @@ Route::group(['middleware'=>'auth'],function (){
     //查询用户资料
     Route::get('users/{id}','UserController@index');
 
-    //用户管理高级管理（需要权限,删除和修改）
     Route::group(['middleware'=>'permission:manage-user'],function (){
         //更新资料
         Route::put('users/{id}','UserController@update');
@@ -91,7 +94,7 @@ Route::group(['middleware'=>'auth'],function (){
 
 
     //班级管理权限
-    Route::group(['middleware'=>'permission:edit-classes'],function (){
+    Route::group(['middleware'=>'permission:edit-class'],function (){
         //删除班级
         Route::delete('classes','ClassController@destroy');
         //申请创建小团体or班级
@@ -99,10 +102,40 @@ Route::group(['middleware'=>'auth'],function (){
         //修改班级信息
         Route::put('classes','ClassController@update');
         //删除班级指定成员
-        Route::delete('classes/{user}','ClassController@delmember');
+        Route::delete('classes/deluser/{id}','ClassController@deleteuser');
     });
 
     #_________________________站内消息(发送什么的)__________________
+    Route::get('test',function (){
+        $user=\App\Classes::find(1)->messages()->create(['title'=>'你好','type_id'=>1,'content'=>'哈哈哈','user_id'=>\Illuminate\Support\Facades\Auth::id()]);
+        dd($user);
+    });
+
+    Route::group([],function (){
+        //默认收件箱页面
+        Route::get('message','MessageController@home');
+        //发送消息的界面
+        Route::get('message/send','MessageController@send');
+        //发送消息
+            //发送用户
+        Route::post('send/user/{id}','MessageController@senduser');
+            //发送班级
+        Route::post('send/class/{id}','MessageController@sendclass');
+            //发送全体（队列系统）
+        Route::post('send/all','MessageController@sendall');
+
+        //查看消息
+        Route::get('get/message','MessageController@getmessage');
+        //获取信息详情
+        Route::get('message/{id}','MessageController@index');
+        //设置已读
+        Route::post('message/{id}/read');
+        //设置未读
+        Route::post('message/{id}/read');
+
+
+        //消息管理___管理员的大本营
+    });
 
 
 

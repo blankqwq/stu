@@ -130,7 +130,7 @@
                                         <td><a href="/classes/{{ $classe->id }}" id="read"><span
                                                         class="label label-warning">查看</span></a>
                                             @permission('manage-class')
-                                            <a href="/agree/classes/{{ $classe->id }}" id="agree"><span
+                                            <a href="/agree/classes/{{ $classe->id }}" id="func"><span
                                                         class="label label-success">通过</span></a>
                                             <a href="/disagree/classes/{{ $classe->id }}" id="func"><span
                                                         class="label label-danger">不通过</span></a>
