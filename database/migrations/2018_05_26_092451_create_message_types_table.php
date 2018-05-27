@@ -14,12 +14,9 @@ class CreateMessageTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('message_t', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-        });
         Schema::create('message_types', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name')->comment('类型名');
             $table->timestamps();
         });
     }
@@ -31,7 +28,6 @@ class CreateMessageTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('message_t');
         Schema::dropIfExists('message_types');
     }
 }

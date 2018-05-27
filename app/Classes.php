@@ -34,4 +34,8 @@ class Classes extends Model
     public function users(){
         return $this->belongsToMany(User::class,'user_classes','class_id','user_id');
     }
+
+    public function messages(){
+        return $this->morphMany(Message::class,'messagetable');
+    }
 }

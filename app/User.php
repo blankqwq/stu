@@ -59,4 +59,8 @@ class User extends Authenticatable
     public function getinfo(){
         return $this->hasOne(UserInfo::class,'user_id','id');
     }
+
+    public function messages(){
+        return $this->morphMany(Message::class,'messagetable');
+    }
 }
