@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes;
+use App\Http\Requests\UserInfoRequest;
 use App\User;
 use App\UserInfo;
 use Illuminate\Http\Request;
@@ -37,7 +38,7 @@ class UserController extends Controller
      * @param Request $request
      * @return string
      */
-    public function store(Request $request)
+    public function store(UserInfoRequest $request)
     {
         $input=$request->only('name','password','sign');
         if ($request->hasFile('avatar')){
@@ -85,6 +86,9 @@ class UserController extends Controller
      */
     public function destroy(Request $request)
     {
+        $this->validate($request, [
+            'ids.*' => 'required|exists:users,id',
+        ]);
         $ids=$request->input('ids');
         foreach ($ids as $id){
             $user = User::find($id);
@@ -103,9 +107,9 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update($id, Request $request)
+    public function update($id, UserInfoRequest $request)
     {
-//        更新资料
+
         $input=$request->only('name','password','sign');
         if ($request->hasFile('avatar')){
             $avatar=Storage::disk('public')->putfile('upload/user',$request->file('avatar'));
@@ -126,6 +130,9 @@ class UserController extends Controller
      * 根据用户姓名查询用户
      */
     public function search(Request $request){
+        $this->validate($request, [
+            'ids' => 'required|',
+        ]);
         $users=User::with('getinfo','roles')->where('email','like','%'.$request->input('search').'%')->paginate(15);
         return view('admin.usersall',compact('users'));
     }

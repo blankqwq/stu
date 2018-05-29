@@ -18,6 +18,7 @@
 
             <div class="box">
                 <div class="box-body box-profile">
+                    @include('particles.error')
                     <img class="profile-user-img img-responsive img-circle" src="{{ $user_info->avatar }}"
                          alt="User profile picture">
 

@@ -60,6 +60,7 @@
                     </div>
                     <div class="box-body table-responsive no-padding">
                         <form action="/users/del" method="post">
+                            @include('particles.error')
                             <table class="table table-hover">
                                 <tr>
                                     <th>#</th>
@@ -89,6 +90,9 @@
                                                         class="label label-warning">查看</span></a>
                                             <a href="/class/{{ $classe->id }}"><span
                                                         class="label label-success">成员查看</span>
+                                            </a>
+                                            <a href="/classhome/{{ $classe->id }}"><span
+                                                        class="label label-danger">{{$classe->types->first()->category}}主页</span>
                                             </a>
                                         </td>
                                     </tr>

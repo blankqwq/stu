@@ -25,7 +25,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 ############仅仅只需要登陆的路由
 Route::group(['middleware'=>'auth'],function (){
     #___________________________文件上传___________
-    Route::post('upload','FunctionController@upload');
+    Route::post('editor_upload','FunctionController@upload');
 
     #_____________________________用户管理___________________________
 
@@ -80,7 +80,7 @@ Route::group(['middleware'=>'auth'],function (){
     //查询指定班级
     Route::post('classes/search','ClassController@search');
 
-    //创建班级
+    //创建班级界面
     Route::get('classes/create','ClassController@createindex');
 
     //创建班级
@@ -93,14 +93,17 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('classes/{id}','ClassController@join');
 
 
+    //班级主页
+    Route::get('classhome/{id}','ClassController@classhome');
+
+    //修改班级信息
+    Route::put('classes/{id}','ClassController@update');
     //班级管理权限
     Route::group(['middleware'=>'permission:edit-class'],function (){
         //删除班级
         Route::delete('classes','ClassController@destroy');
         //申请创建小团体or班级
         Route::post('classes','ClassController@create');
-        //修改班级信息
-        Route::put('classes','ClassController@update');
         //删除班级指定成员
         Route::delete('classes/deluser/{id}','ClassController@deleteuser');
     });
@@ -113,16 +116,18 @@ Route::group(['middleware'=>'auth'],function (){
 
     Route::group([],function (){
         //默认收件箱页面
-        Route::get('message','MessageController@home');
+        Route::get('message/user','MessageController@homeuser');
+        //默认班级收件箱
+        Route::get('message/class','MessageController@homeclass');
         //发送消息的界面
         Route::get('message/send','MessageController@send');
         //发送消息
             //发送用户
-        Route::post('send/user/{id}','MessageController@senduser');
+        Route::post('message/send/user/{id}','MessageController@senduser');
             //发送班级
-        Route::post('send/class/{id}','MessageController@sendclass');
+        Route::post('message/send/class/{id}','MessageController@sendclass');
             //发送全体（队列系统）
-        Route::post('send/all','MessageController@sendall');
+        Route::post('message/send/all','MessageController@sendall');
 
         //查看消息
         Route::get('get/message','MessageController@getmessage');
@@ -132,9 +137,17 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('message/{id}/read');
         //设置未读
         Route::post('message/{id}/read');
-
-
         //消息管理___管理员的大本营
+    });
+
+    #_________________ClassHome班级主页
+
+    Route::group([],function (){
+        Route::get('classhome/{id}/index.html','ClassHomeController@index');
+
+        Route::get('classhome/{id}/write.html','ClassHomeController@write');
+
+        Route::post('classhome/{id}','ClassHomeController@send');
     });
 
 
