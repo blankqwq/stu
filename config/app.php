@@ -178,6 +178,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         \App\Providers\ComposerServiceProvider::class,
+        Mews\Purifier\PurifierServiceProvider::class,
+        zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class,
 
     ],
 
@@ -229,6 +231,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
+        'Purifier' => Mews\Purifier\Facades\Purifier::class,
 
     ],
 

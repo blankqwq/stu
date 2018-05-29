@@ -21,6 +21,8 @@ class CreateMessagesTable extends Migration
             $table->unsignedInteger('user_id')->comment('发送人id');
             $table->unsignedInteger('messagetable_id')->comment('关联的模型id');
             $table->string('messagetable_type')->comment('关联模型的名字');
+            $table->unsignedInteger('enclosure_id')->nullable()->comment('关联附件表');
+            $table->unsignedSmallInteger('can_replay')->comment('能否被回复');
             $table->timestamps();
             $table->softDeletes()->comment('软删除');
         });

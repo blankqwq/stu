@@ -109,7 +109,10 @@
                                                         class="label label-warning">查看</span></a>
                                             @if($classe->user_allow!=0)
                                                 <a href="/class/{{ $classe->id }}"><span
-                                                            class="label label-success">成员查看</span>
+                                                            class="label label-success">成员管理</span>
+                                                </a>
+                                                <a href="/classhome/{{ $classe->id }}/index.html"><span
+                                                            class="label label-danger">{{$classe->types->first()['category']}}主页</span>
                                                 </a>
                                             @endif
 

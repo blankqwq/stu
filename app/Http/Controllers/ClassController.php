@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Classes;
 use App\ClassType;
+use App\Http\Requests\ClassesRequest;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -25,6 +26,10 @@ class ClassController extends Controller
     }
 
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * 获取我创建的班级
+     */
     public function my()
     {
         $classes = Classes::where('user_id', Auth::id())->with('types', 'boss')->paginate(15);
@@ -51,9 +56,10 @@ class ClassController extends Controller
     public function index($id)
     {
         $classes = Classes::with('types', 'boss')->find($id);
-        if (!$classes)
+        if (!$classes or  $classes->user_allow)
             return "<h3>null</h3>";
-        return view('admin.class.xiaochaung', compact('classes'));
+        $types=ClassType::all();
+        return view('admin.class.xiaochaung', compact('classes','types'));
     }
 
 
@@ -95,7 +101,7 @@ class ClassController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * 用户创建小团体地址
      */
-    public function create(Request $request)
+    public function create(ClassesRequest $request)
     {
         $input = $request->only('name', 'password', 'verification');
         if ($request->hasFile('avatar')) {
@@ -120,6 +126,7 @@ class ClassController extends Controller
     //申请加入班级
     public function join($id, Request $request)
     {
+        $input=$request->only('content','');
         try{
             $classe=Classes::find($id);
 
@@ -185,10 +192,18 @@ class ClassController extends Controller
         return "1";
     }
 
-    //把不和合格的人t除
+    /**
+     * @param $id
+     * @param Request $request
+     * @return string
+     * 删除班级中不符合要去的人
+     */
     public function deleteuser($id, Request $request)
     {
 //        dd($id);
+        $this->validate($request, [
+            'ids.*' => 'required|exists:classes,id',
+        ]);
         $classe = Classes::find($id);
         $ids = $request->input('ids');
         try {
@@ -197,12 +212,42 @@ class ClassController extends Controller
             return "0";
         }
         return "1";
-
     }
 
-    //删除班级
-    public function destroy($id, Request $request)
-    {
+//    //删除班级在高级管理中设定
+//    public function destroy($id, Request $request)
+//    {
+//
+//    }
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * 班级信息修改
+     */
+    public function update($id,Request $request){
+        $this->validate($request,[
+            'name'=>'required|min:2|max:10',
+            'password'=>'max:6',
+            'verification'=>'required|Integer|',
+            'avatar'=>'image',
+        ]);
+        $input = $request->only('name', 'password', 'verification');
+        if ($request->hasFile('avatar')) {
+            $avatar = Storage::disk('public')->putfile('upload/class', $request->file('avatar'));
+            $input['avatar'] = '/storage/' . $avatar;
+        }
+        try {
+            DB::transaction(function () use ($id, $input) {
+                Classes::find($id)->update($input);
+            });
+
+        }catch (\Exception $exception){
+            abort('404');
+        }
+        return redirect('all/classes');
     }
+
+
 }

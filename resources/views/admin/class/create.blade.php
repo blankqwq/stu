@@ -18,6 +18,7 @@
             <div class="box">
                 <form action="/classes/create" method="post"  enctype="multipart/form-data">
                     {{ csrf_field() }}
+                    @include('particles.error')
                     <div class="box-body">
                         <div class="form-group">
                             <div class="col-xs-12 text-center">
