@@ -17,8 +17,8 @@ class EventServiceProvider extends ServiceProvider
 //        'App\Events\Event' => [
 //            'App\Listeners\EventListener',
 //        ],
-        'App\Events\UserinfoSave'=>[
-            'App\Listeners\RefreshCache'
+        'App\Events\JoinClass'=>[
+            'App\Listeners\SendJoinMessage'
         ]
     ];
 

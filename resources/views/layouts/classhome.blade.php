@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-
+@section('bar','skin-blue sidebar-mini sidebar-collapse')
 @section('content')
     <section class="content-header">
         <h1>
@@ -16,7 +16,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-3">
-                <a href="/classhome/{{$classe->id}}/write.html" class="btn btn-primary btn-block margin-bottom">发消息</a>
+
 
                 <div class="box box-solid">
                     <div class="box-header with-border">
@@ -30,12 +30,16 @@
                     </div>
                     <div class="box-body no-padding">
                         <ul class="nav nav-pills nav-stacked">
+
+                                <img src="{{ $classe->avatar }}" id="avatarImg"
+                                     class="profile-user-img img-responsive img-circle"/>
+                                <p class="text-center">{{ $classe->name }}</p>
                             <li class="@yield('gonggao')"><a href="/classhome/{{$classe->id}}/index.html"><i class="fa fa-inbox"></i>{{$classe->types->first()['category']}}公告
-                                    <span class="label label-primary pull-right">1</span></a></li>
-                            <li class="@yield('file')"><a href="#"><i class="fa fa-envelope-o"></i> {{$classe->types->first()['category']}}文件</a></li>
-                            <li class="@yield('xuqiu')"><a href="#"><i class="fa fa-file-text-o"></i> {{$classe->types->first()['category']}}需求</a></li>
-                            <li class="@yield('send')"><a href="/classhome/{{$classe->id}}/write.html"><i class="fa fa-filter"></i> 发送<span
-                                            class="label label-warning pull-right">65</span></a>
+                                    <span class="label label-warning pull-right">{{$gongaocount}}</span></a></li>
+                            <li class="@yield('file')"><a href="/classhome/{{$classe->id}}/file.html"><i class="fa fa-envelope-o"></i> {{$classe->types->first()['category']}}文件</a></li>
+                            <li class="@yield('xuqiu')"><a href="/classhome/{{$classe->id}}/request.html"><i class="fa fa-file-text-o"></i> {{$classe->types->first()['category']}}需求
+                                    <span class="label label-danger pull-right">{{$xuqiucount}}</span></a></li>
+                            <li class="@yield('send')"><a href="/classhome/{{$classe->id}}/write.html"><i class="fa fa-filter"></i> 发送</a>
                             </li>
                             <li class="@yield('upload')"><a href="#"><i class="fa fa-trash-o"></i> 上传</a></li>
                         </ul>

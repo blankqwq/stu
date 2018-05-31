@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 @include('particles.head')
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="@yield('bar','hold-transition skin-blue sidebar-mini')">
 <div class="wrapper">
 
 @include('particles.header')

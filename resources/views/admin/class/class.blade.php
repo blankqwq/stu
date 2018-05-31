@@ -20,7 +20,7 @@
                 <div class="box-body box-profile">
                     <img class="profile-user-img img-responsive img-circle" src="{{ $classes->avatar }}"
                          alt="未找到图片">
-                    <h3 class="profile-username text-center">班级名:{{ $classes->name }}</h3>
+                    <h3 class="profile-username text-center">name:{{ $classes->name }}</h3>
                     <ul class="list-group list-group-unbordered">
                         <li class="list-group-item">
                             <b>创建时间：</b> <a class="pull-right">{{ $classes->name }}</a>
@@ -37,12 +37,19 @@
                         </li>
                         <li class="list-group-item">
                             <b>是否需要密码</b> <a class="pull-right">
-                                @if($classes->verification==0)
+                                @if($classes->password)
                                             需要
+                                    @else
+                                    不需要
                             @endif</a>
                         </li>
                         <li class="list-group-item">
-                            <b>是否需要认证</b> <a class="pull-right">{{ $classes->verification }}</a>
+                            <b>是否需要认证</b> <a class="pull-right">
+                                @if($classe->verification==0)
+                                    需要
+                                    @else
+                                    不需要
+                            @endif</a>
                         </li>
                         <li class="list-group-item">
                             <b>加入班级</b> <a class="pull-right">点击申请加入</a>

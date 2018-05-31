@@ -31,27 +31,36 @@ class CreateClassesTable extends Migration
         //满足多对多的关系
         Schema::create('user_classes', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('user_id')->comment('用户id');
-            $table->unsignedBigInteger('class_id')->comment('班级id');
+            $table->integer('user_id')->unsigned()->comment('用户id');
+            $table->integer('class_id')->unsigned()->comment('班级id');
             $table->unsignedSmallInteger('is_join')->nullable()->comment('是否加入(加入为空，还未审核，表示有)');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('classes')
+                ->onUpdate('cascade')->onDelete('cascade');
         });
 
         //班级类型中间表（多对多关系）
-        Schema::create('class_t', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('class_id');
-            $table->unsignedInteger('type_id');
-            $table->softDeletes();
-        });
-
-        //班级类型
         Schema::create('class_type', function (Blueprint $table) {
             $table->increments('id');
             $table->string('category')->comment('班级类型');
             $table->timestamps();
             $table->softDeletes();
         });
+        Schema::create('class_t', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('class_id')->unsigned();
+            $table->integer('type_id')->unsigned();
+            $table->softDeletes();
+            $table->foreign('class_id')->references('id')->on('classes')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('type_id')->references('id')->on('class_type')
+                ->onUpdate('cascade')->onDelete('cascade');
+        });
+
+        //班级类型
+
 
     }
 
@@ -64,7 +73,8 @@ class CreateClassesTable extends Migration
     {
         Schema::dropIfExists('classes');
         Schema::dropIfExists('user_classes');
-        Schema::dropIfExists('class_t');
         Schema::dropIfExists('class_type');
+        Schema::dropIfExists('class_t');
+
     }
 }

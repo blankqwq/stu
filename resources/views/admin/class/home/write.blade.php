@@ -7,7 +7,7 @@
             <div class="box-header with-border">
                 <h3 class="box-title">发送一条新公告</h3>
             </div>
-            <form action="/classhome/{{ $classe->id }}" method="post">
+            <form action="/classhome/{{ $classe->id }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
                 <div class="box-body">
                     <div class="form-group">
@@ -18,7 +18,7 @@
                     </div>
                     <div class="form-group">
                         <select class="form-control" name="type_id">
-                            <option>请选择班级</option>
+                            <option>请选择类型</option>
                             @foreach($types as $type)
                                 <option value="{{ $type->id }}">{{ $type->name }}</option>
                             @endforeach
