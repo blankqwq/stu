@@ -97,7 +97,7 @@
                                         <td><a href="/users/{{ $user->id }}" id="read"><span
                                                         class="label label-warning">查看</span></a>
                                             <a href="/permissions/{{ $user->id }}"><span
-                                                        class="label label-success">权限</span>
+                                                        class="label label-success">设置身份</span>
                                             </a>
                                         </td>
                                     </tr>

@@ -15,11 +15,15 @@ class CreateMessageRepliesTable extends Migration
     {
         Schema::create('message_replies', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('message_id')->comment('回复的message_id');
-            $table->unsignedInteger('user_id')->comment('回复人');
+            $table->integer('message_id')->unsigned()->comment('回复的message_id');
+            $table->integer('user_id')->unsigned()->comment('回复人');
             $table->string('content')->comment('回复内容');
             $table->softDeletes();
             $table->timestamps();
+            $table->foreign('message_id')->references('id')->on('messages')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

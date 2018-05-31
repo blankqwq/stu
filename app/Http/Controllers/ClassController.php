@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Classes;
 use App\ClassType;
 use App\Http\Requests\ClassesRequest;
+use App\Jobs\JoinClassMessage;
+use App\Message;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -56,10 +58,10 @@ class ClassController extends Controller
     public function index($id)
     {
         $classes = Classes::with('types', 'boss')->find($id);
-        if (!$classes or  $classes->user_allow)
+        if (!$classes)
             return "<h3>null</h3>";
-        $types=ClassType::all();
-        return view('admin.class.xiaochaung', compact('classes','types'));
+        $types = ClassType::all();
+        return view('admin.class.xiaochaung', compact('classes', 'types'));
     }
 
 
@@ -81,9 +83,9 @@ class ClassController extends Controller
      */
     public function oneclass($id)
     {
-        $classe=Classes::find($id);
+        $classe = Classes::find($id);
         $users = Classes::find($id)->users()->with('getinfo', 'roles')->paginate(15);
-        return view('admin.class.users', compact('users','classe'));
+        return view('admin.class.users', compact('users', 'classe'));
     }
 
     /**
@@ -122,19 +124,54 @@ class ClassController extends Controller
         return redirect('/classes/my');
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * 获取加入页面
+     */
+    public function getjoin($id)
+    {
+        if (Auth::user()->classes()->find($id))
+            return "<script>alert('您已经加入了该团体');window.location.href='/classhome/" . $id . "/index.html'</script>";
+        $classe = Classes::where('user_allow', '>', 1)->find($id);
+        return view('admin.class.join', compact('classe'));
+    }
 
-    //申请加入班级
+    /**
+     * @param $id
+     * @param Request $request
+     * @return string
+     */
     public function join($id, Request $request)
     {
-        $input=$request->only('content','');
-        try{
-            $classe=Classes::find($id);
-
-
-        }catch (\Exception $exception){
-
+        $classe = Classes::find($id);
+        $input = $request->only('content');
+        if (Auth::user()->classes()->find($id))
+            return "<script>alert('您已经加入了,点击确定自动跳转到班级页面');window.location.href='/classhome/" . $classe->id . "/index.html'</script>";
+        try {
+            if ($classe->verification == 0) {
+                if ($classe->password == $request->input('password')) {
+                    $input['title'] = '我已近您的' . $classe->name;
+                } else {
+                    return "密码错误";
+                }
+            } else {
+                if ($classe->password == $request->input('password')) {
+                    $input['title'] = '有人申请加入您的' . $classe->name;
+                } else {
+                    return "<script>alert('密码错误');window.location.href='/join/class/" . $classe->id . "'</script>";
+                }
+            }
+            $input['user_id'] = Auth::id();
+            $input['can_reply'] = 1;
+            $input['type_id'] = 3;
+            //组织消息发送邮件
+            $message = $classe->boss()->first()->messages()->create($input);
+            $user = $classe->boss()->first();
+            $this->dispatch(new JoinClassMessage($user, $message));
+        } catch (\Exception $exception) {
+            abort('404');
         }
-
+        return redirect('/classes/me');
 
     }
 
@@ -226,12 +263,13 @@ class ClassController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * 班级信息修改
      */
-    public function update($id,Request $request){
-        $this->validate($request,[
-            'name'=>'required|min:2|max:10',
-            'password'=>'max:6',
-            'verification'=>'required|Integer|',
-            'avatar'=>'image',
+    public function update($id, Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|min:2|max:10',
+            'password' => 'max:6',
+            'verification' => 'required|Integer|',
+            'avatar' => 'image',
         ]);
         $input = $request->only('name', 'password', 'verification');
         if ($request->hasFile('avatar')) {
@@ -243,7 +281,7 @@ class ClassController extends Controller
                 Classes::find($id)->update($input);
             });
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             abort('404');
         }
         return redirect('all/classes');

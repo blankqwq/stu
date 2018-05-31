@@ -89,6 +89,10 @@ Route::group(['middleware'=>'auth'],function (){
     //获取班级详情
     Route::get('classes/{id}','ClassController@index');
 
+//    加入班级
+    Route::get('join/class/{id}','ClassController@getjoin');
+    Route::post('join/class/{id}','ClassController@join');
+
     //加入某班级
     Route::post('classes/{id}','ClassController@join');
 
@@ -148,6 +152,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('classhome/{id}/write.html','ClassHomeController@write');
 
         Route::post('classhome/{id}','ClassHomeController@send');
+        Route::get('classhome/{id}/read.html','ClassHomeController@read');
+        Route::get('classhome/{id}/request.html','ClassHomeController@xuqiu');
     });
 
 
