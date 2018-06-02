@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes;
+use App\Enclosure;
 use App\Http\Requests\GonggaoRequest;
 use App\Jobs\SendMailJobs;
 use App\Message;
@@ -10,9 +11,15 @@ use App\MessageType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ClassHomeController extends Controller
 {
+    public function __construct()
+    {
+//        $this->middleware('');
+    }
+
     public function index($id){
         $classe=Classes::with('boss','types')->withCount('messages')->find($id);
         if (!$classe)
@@ -42,10 +49,7 @@ class ClassHomeController extends Controller
 
     public function send($id,Request $request){
         $input=$request->only('title','content','type_id');
-//        dd($input);
-        if ($request->hasFile('attachment')){
-            $ret = Storage::disk('public')->putfile('upload/attachment', $request->attachment);
-        }
+
         $input['content']=clean($input['content']);
         $classe=Classes::find($id);
         $input['can_reply']=1;
@@ -53,10 +57,11 @@ class ClassHomeController extends Controller
             abort('404');
         try{
             $input['user_id']=Auth::id();
-            DB::transaction(function () use ($classe,$id, $input) {
+            DB::transaction(function () use ($classe,$id, $input,$request) {
+                $res=$this->upattachment($request);
+                $input['enclosure_id']=$res;
                 $message = $classe->messages()->create($input);
                 $users = $classe->users()->get();
-//                dd($users,$message);
                 $type=MessageType::find($input['type_id']);
                 $this->dispatch(new SendMailJobs($classe, $message,$type));
 
@@ -82,7 +87,19 @@ class ClassHomeController extends Controller
 
     public function read($id){
         $onemessage=Message::with('types','sender','enclosures')->find($id);
-//        return $onemessage;
         return view('admin.class.home.read',compact('onemessage'));
+    }
+
+    public function upattachment(Request $request){
+        if ($request->hasFile('attachment')){
+            $ret = Storage::disk('public')->putfile('upload/attachment', $request->attachment);
+            $res=Enclosure::create([
+                'url'=>$ret,
+                'name'=>$request->attachment->getClientOriginalName(),
+                'size'=>$request->attachment->getsize()
+            ]);
+            return $res->id;
+        }
+        return null;
     }
 }

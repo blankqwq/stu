@@ -38,4 +38,8 @@ class Classes extends Model
     public function messages(){
         return $this->morphMany(Message::class,'messagetable');
     }
+
+    public function getallusers(){
+        return $this->belongsToMany(User::class,'user_classes','class_id','user_id')->with('getinfo');
+    }
 }

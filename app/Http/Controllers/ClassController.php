@@ -163,7 +163,7 @@ class ClassController extends Controller
             }
             $input['user_id'] = Auth::id();
             $input['can_reply'] = 1;
-            $input['type_id'] = 3;
+            $input['type_id'] = 4;
             //组织消息发送邮件
             $message = $classe->boss()->first()->messages()->create($input);
             $user = $classe->boss()->first();

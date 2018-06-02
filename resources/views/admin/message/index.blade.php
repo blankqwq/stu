@@ -1,98 +1,103 @@
-@extends('layouts.mailbox')
+@extends('layouts.admin')
 
-@section('mail-content')
-    <div class="col-md-9">
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">Inbox</h3>
+@section('content')
+    <script>
+        $(document).ready(function () {
+            $('[id=read]').click(function () {
+                htmlobj = $.ajax(
+                    {
 
-                <div class="box-tools pull-right">
-                    <div class="has-feedback">
-                        <input type="text" class="form-control input-sm" placeholder="Search Mail">
-                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                    </div>
-                </div>
-                <!-- /.box-tools -->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-                <div class="mailbox-controls">
-                    <!-- Check all button -->
-                    <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i
-                                class="fa fa-square-o"></i>
-                    </button>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i>
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i>
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i>
-                        </button>
-                    </div>
-                    <!-- /.btn-group -->
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
-                    <div class="pull-right">
-                        1-50/200
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm"><i
-                                        class="fa fa-chevron-left"></i></button>
-                            <button type="button" class="btn btn-default btn-sm"><i
-                                        class="fa fa-chevron-right"></i></button>
+                        type: "GET",
+                        url: this.href,
+                        success: function () {
+                            $("html,body").animate({scrollTop: 0}, 800);
+                            var data = htmlobj.responseText;
+                            $('#xiangqing').empty();
+                            $("#xiangqing").html(htmlobj.responseText);
+                        },
+                        error: function () {
+                            alert('获取失败联系管理员')
+                        }
+
+                    });
+                return false;
+            });
+        });
+    </script>
+    <section class="content">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">收件箱表</h3>
+                        <div class="box-tools">
+                            <form action="" method="post">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    {{ csrf_field() }}
+                                    <input type="text" name="search" class="form-control pull-right"
+                                           placeholder="Search">
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </form>
                         </div>
-                        <!-- /.btn-group -->
                     </div>
-                    <!-- /.pull-right -->
-                </div>
-                <div class="table-responsive mailbox-messages">
-                    <table class="table table-hover table-striped">
-                        <tbody>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td class="mailbox-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>
-                            <td class="mailbox-name"><a href="read-mail.html">Alexander Pierce</a></td>
-                            <td class="mailbox-subject"><b>AdminLTE 2.0 Issue</b> - Trying to find a solution to
-                                this problem...
-                            </td>
-                            <td class="mailbox-attachment"></td>
-                            <td class="mailbox-date">5 mins ago</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <!-- /.table -->
-                </div>
-                <!-- /.mail-box-messages -->
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer no-padding">
-                <div class="mailbox-controls">
-                    <!-- Check all button -->
-                    <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i
-                                class="fa fa-square-o"></i>
-                    </button>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i>
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i>
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i>
-                        </button>
+                    <div class="box-body table-responsive no-padding">
+                        <form action="/message/destroy" method="post">
+                            <table class="table table-hover">
+                                <tr>
+                                    <th>#</th>
+                                    <th>标题</th>
+                                    <th>内容</th>
+                                    <th>发送人</th>
+                                    <th>发送时间</th>
+                                </tr>
+                                {{ csrf_field() }}
+                                {{ method_field('delete') }}
+                                @forelse($messages as $message)
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" value="{{ $message->id }}" name="ids[]">
+                                        </td>
+                                        <td>{{ $message->title }}</td>
+                                        <td>{!!  mb_substr(strip_tags($message->content),0,30) !!}</td>
+                                        <td>{{ $message->sender->email }} 【{{ $message->sender->getinfo->first()->name }}】</td>
+                                        <td>{{\Carbon\Carbon::parse($message->created_at)->diffForHumans()}}</td>
+
+                                        <td><a href="/message/{{$message->id}}.html" id="read"><span
+                                                        class="label label-warning">查看详情</span></a>
+                                        <a href="/message" id="read"><span
+                                                        class="label label-default">回复</span></a>
+                                        </td>
+                                    </tr>
+
+                                @empty
+                                    <tr> 暂无消息</tr>
+                                @endforelse
+                            </table>
+
+                            <div class="box-footer">
+                                <button class="btn btn-google btn-sm ">已读</button>
+                                <ul class="pagination pagination-sm no-margin pull-right">
+                                    {{ $messages->links() }}
+                                </ul>
+                            </div>
+                        </form>
                     </div>
-                    <!-- /.btn-group -->
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
-                    <div class="pull-right">
-                        1-50/200
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm"><i
-                                        class="fa fa-chevron-left"></i></button>
-                            <button type="button" class="btn btn-default btn-sm"><i
-                                        class="fa fa-chevron-right"></i></button>
-                        </div>
-                        <!-- /.btn-group -->
-                    </div>
-                    <!-- /.pull-right -->
                 </div>
             </div>
+            <div class="col-md-4" id="xiangqing">
+
+            </div>
+
         </div>
-        <!-- /. box -->
-    </div>
+
+
+    </section>
+
+
 @endsection

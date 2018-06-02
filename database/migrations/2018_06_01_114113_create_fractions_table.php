@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserInfosTable extends Migration
+class CreateFractionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateUserInfosTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_infos', function (Blueprint $table) {
+        Schema::create('fractions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->string('name')->comment('姓名');
-            $table->string('sign')->nullable()->comment('个性签名');
-            $table->string('avatar')->default('/upload/images/default.png')->comment('头像');
-            $table->string('sex',2)->comment('性别');
+            $table->integer('task_id')->unsigned();
+            $table->unsignedSmallInteger('fraction');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('task_id')->references('id')->on('question_tasks')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
     }
@@ -34,6 +34,6 @@ class CreateUserInfosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_infos');
+        Schema::dropIfExists('fractions');
     }
 }

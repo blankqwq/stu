@@ -16,7 +16,10 @@ class CreateEnclosuresTable extends Migration
         Schema::create('enclosures', function (Blueprint $table) {
             $table->increments('id');
             $table->string('url')->comment('附件地址');
+            $table->string('name');
+            $table->string('size');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

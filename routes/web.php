@@ -20,7 +20,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //Route::post('/register', 'AuthController@register')->name('register');
-
+Route::get('/1', function (){
+    \Illuminate\Support\Facades\Auth::user()->delete();
+});
 
 ############仅仅只需要登陆的路由
 Route::group(['middleware'=>'auth'],function (){
@@ -120,28 +122,38 @@ Route::group(['middleware'=>'auth'],function (){
 
     Route::group([],function (){
         //默认收件箱页面
-        Route::get('message/user','MessageController@homeuser');
-        //默认班级收件箱
-        Route::get('message/class','MessageController@homeclass');
-        //发送消息的界面
-        Route::get('message/send','MessageController@send');
-        //发送消息
-            //发送用户
-        Route::post('message/send/user/{id}','MessageController@senduser');
-            //发送班级
-        Route::post('message/send/class/{id}','MessageController@sendclass');
-            //发送全体（队列系统）
-        Route::post('message/send/all','MessageController@sendall');
+        Route::get('message/index.html','MessageController@homeuser');
 
-        //查看消息
-        Route::get('get/message','MessageController@getmessage');
+        Route::get('message/receive.html','MessageController@homereceive');
+        //发送消息的界面
+        Route::get('message/send.html','MessageController@sendhome');
+        Route::get('message/outbox.html','MessageController@outhome');
+        Route::get('message/{id}.html','MessageController@xiangqing');
+        //发送消息
+
+        Route::post('message/send','MessageController@send');
+        Route::delete('message/destroy','MessageController@destroy');
+        Route::delete('message/restore','MessageController@restore');
+
+
+
+        //动态获取一些信息
+        Route::get('message/getshixing','MessageController@getshixing');
+        Route::get('message/banji','MessageController@getbanji');
+        Route::get('message/shengqing','MessageController@getshengqing');
+
+
+
+
         //获取信息详情
         Route::get('message/{id}','MessageController@index');
         //设置已读
         Route::post('message/{id}/read');
         //设置未读
-        Route::post('message/{id}/read');
-        //消息管理___管理员的大本营
+        Route::post('message/{id}/noread');
+        //撤回消息
+        Route::post('message/{id}/del');
+
     });
 
     #_________________ClassHome班级主页
@@ -154,6 +166,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('classhome/{id}','ClassHomeController@send');
         Route::get('classhome/{id}/read.html','ClassHomeController@read');
         Route::get('classhome/{id}/request.html','ClassHomeController@xuqiu');
+        //文件
     });
 
 

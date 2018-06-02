@@ -66,7 +66,8 @@
                         @forelse ($messages as $message)
                             <tr>
                                 <td><input type="checkbox"></td>
-                                <td class="mailbox-subject"><b><a href="/classhome/{{$message->id}}/read.html" id="read">{{$message->title}}</a></b> </td>
+                                <td class="mailbox-subject"><b><a href="/classhome/{{$message->id}}/read.html"
+                                                                  id="read">{{$message->title}}</a></b></td>
                                 <td class="mailbox-name"> {!!  mb_substr(strip_tags($message->content),0,30) !!} </td>
                                 <td class="mailbox-attachment">{{ $message->sender->email }}</td>
                                 <td class="mailbox-date">{{\Carbon\Carbon::parse($message->created_at)->diffForHumans()}}</td>
@@ -76,7 +77,6 @@
                                 <td>暂无公告</td>
                             </tr>
                         @endforelse
-
                         </tbody>
                     </table>
                     <!-- /.table -->
@@ -97,7 +97,7 @@
                     <!-- /.btn-group -->
                     <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                     <div class="pull-right">
-                    {{$messages->links()}}
+                        {{$messages->links()}}
                     </div>
                 </div>
             </div>

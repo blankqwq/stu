@@ -180,6 +180,7 @@ return [
         \App\Providers\ComposerServiceProvider::class,
         Mews\Purifier\PurifierServiceProvider::class,
         zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -232,6 +233,7 @@ return [
 
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         'Purifier' => Mews\Purifier\Facades\Purifier::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

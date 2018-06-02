@@ -18,6 +18,7 @@ class CreateMessageTypesTable extends Migration
             $table->increments('id');
             $table->string('name')->comment('类型名');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

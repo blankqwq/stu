@@ -3,7 +3,6 @@
 @include('particles.head')
 <body class="@yield('bar','hold-transition skin-blue sidebar-mini')">
 <div class="wrapper">
-
 @include('particles.header')
 
 @include('particles.siderbar')

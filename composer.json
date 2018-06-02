@@ -10,6 +10,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
+        "maatwebsite/excel": "^3.0",
         "mews/purifier": "^2.1",
         "predis/predis": "^1.1",
         "zgldh/qiniu-laravel-storage": "^0.9.2",

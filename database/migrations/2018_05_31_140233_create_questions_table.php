@@ -44,6 +44,7 @@ class CreateQuestionsTable extends Migration
             $table->string('optionc')->nullable();
             $table->string('optiond')->nullable();
             $table->string('answer')->comment('答案');
+            $table->softDeletes();
 
             $table->foreign('tiku_id')->references('id')->on('tiku')
                 ->onUpdate('cascade')->onDelete('cascade');

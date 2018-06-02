@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Iatstuti\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,7 +15,6 @@ class User extends Authenticatable
     use SoftDeletes { SoftDeletes::restore as private restoreB; }
     use EntrustUserTrait;
     use SoftDeletes;
-
 
     /**
      * The attributes that are mass assignable.

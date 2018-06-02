@@ -67,7 +67,7 @@
                     @endif</a>
             </li>
             <li class="list-group-item">
-                <b>加入班级</b> <a class="pull-right" href="/join/{{ $classes->id }}">点击申请</a>
+                <b>加入班级</b> <a class="pull-right" href="/join/class/{{ $classes->id}}">点击申请</a>
             </li>
         </ul>
         @if(\Illuminate\Support\Facades\Auth::id() === $classes->boss->id or \Illuminate\Support\Facades\Auth::user()->can('manage-class'))

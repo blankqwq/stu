@@ -51,7 +51,7 @@
                         <a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> {{ $enclosure->name }}</a>
                         <span class="mailbox-attachment-size">
                           {{ $enclosure->size }}
-                          <a href="{{'/storage/'.$enclosure->url}}" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
+                            <a href="{{'/storage/'.$enclosure->url}}" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a>
                         </span>
                     </div>
                 </li>

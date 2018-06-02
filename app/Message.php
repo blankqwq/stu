@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Message extends Model
 {
     use SoftDeletes;
-    //
     protected $table = 'messages';
     protected $fillable = ['title', 'content', 'user_id', 'messagetable_id', 'messagetable_type', 'type_id','can_reply','enclosure_id'];
 
@@ -49,6 +48,11 @@ class Message extends Model
      */
     public function sender(){
         return $this->hasOne(User::class,'id','user_id');
+
+    }
+
+    public function senderinfo(){
+        return $this->hasOne(User::class,'id','user_id')->with('getinfo');
 
     }
 

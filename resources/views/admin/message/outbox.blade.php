@@ -30,7 +30,7 @@
             <div class="col-md-8">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">已读箱表</h3>
+                        <h3 class="box-title">已发送</h3>
                         <div class="box-tools">
                             <form action="" method="post">
                                 <div class="input-group input-group-sm" style="width: 150px;">
@@ -47,13 +47,13 @@
                         </div>
                     </div>
                     <div class="box-body table-responsive no-padding">
-                        <form action="/message/restore" method="post">
+                        <form action="/" method="post">
                             <table class="table table-hover">
                                 <tr>
                                     <th>#</th>
                                     <th>标题</th>
                                     <th>内容</th>
-                                    <th>发送人</th>
+
                                     <th>发送时间</th>
                                 </tr>
                                 {{ csrf_field() }}
@@ -65,23 +65,20 @@
                                         </td>
                                         <td>{{ $message->title }}</td>
                                         <td>{!!  mb_substr(strip_tags($message->content),0,30) !!}</td>
-                                        <td>{{ $message->sender->email }} {{ $message->sender->getinfo->first()->name }}</td>
                                         <td>{{\Carbon\Carbon::parse($message->created_at)->diffForHumans()}}</td>
 
                                         <td><a href="/message/{{$message->id}}.html" id="read"><span
                                                         class="label label-warning">查看详情</span></a>
-                                            <a href="/message" id="read"><span
-                                                        class="label label-default">回复</span></a>
                                         </td>
                                     </tr>
 
                                 @empty
-                                    <tr> <td>暂无消息</td></tr>
+                                    <tr> 暂无消息</tr>
                                 @endforelse
                             </table>
 
                             <div class="box-footer">
-                                <button class="btn btn-google btn-sm ">设置未读</button>
+                                <button class="btn btn-google btn-sm ">撤回</button>
                                 <button onclick="$('#users-content').empty();" type="button"
                                         class="btn btn-facebook btn-sm " data-toggle="modal" data-target="#myModal">hhh
                                 </button>

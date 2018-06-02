@@ -79,7 +79,7 @@
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-pie-chart"></i>
+                    <i class="fa fa-laptop"></i>
                     <span>用户管理系统</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -95,16 +95,17 @@
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-laptop"></i>
-                    <span>消息系统</span>
+                    <i class="fa fa-envelope"></i>
+                    <span>私信系统</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> 已读消息</a></li>
-                    <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> 未读消息</a></li>
-                    <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> 发布消息</a></li>
+                    <li><a href="/message/index.html"><i class="fa fa-circle-o"></i> 未读消息</a></li>
+                    <li><a href="/message/receive.html"><i class="fa fa-circle-o"></i> 已读消息</a></li>
+                    <li><a href="/message/send.html"><i class="fa fa-circle-o"></i> 发布消息</a></li>
+                    <li><a href="/message/outbox.html"><i class="fa fa-circle-o"></i> 已发布</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -140,16 +141,6 @@
                     <span class="pull-right-container">
               <small class="label pull-right bg-red">3</small>
               <small class="label pull-right bg-blue">17</small>
-            </span>
-                </a>
-            </li>
-            <li>
-                <a href="pages/mailbox/mailbox.html">
-                    <i class="fa fa-envelope"></i> <span>私信系统</span>
-                    <span class="pull-right-container">
-              <small class="label pull-right bg-yellow">12</small>
-              <small class="label pull-right bg-green">16</small>
-              <small class="label pull-right bg-red">5</small>
             </span>
                 </a>
             </li>
