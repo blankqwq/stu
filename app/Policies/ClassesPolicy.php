@@ -56,4 +56,10 @@ class ClassesPolicy
     {
         //
     }
+
+    public function classhome(User $user, Classes $classes){
+
+//        return 1;
+        return $user->classes()->wherePivot('class_id',$classes->id)->count()>0;
+    }
 }

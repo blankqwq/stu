@@ -156,9 +156,9 @@ Route::group(['middleware'=>'auth'],function (){
 
     });
 
-    #_________________ClassHome班级主页
-
-    Route::group([],function (){
+    #_________________ClassHome班级主页交作业
+    Route::group(['middleware'],function (){
+//
         Route::get('classhome/{id}/index.html','ClassHomeController@index');
 
         Route::get('classhome/{id}/write.html','ClassHomeController@write');
@@ -166,7 +166,33 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('classhome/{id}','ClassHomeController@send');
         Route::get('classhome/{id}/read.html','ClassHomeController@read');
         Route::get('classhome/{id}/request.html','ClassHomeController@xuqiu');
-        //文件
+
+
+        Route::get('classhome/{id}/homework/index.html','HomeworkController@index')->name('homework.index');
+        Route::get('classhome/{id}/homework/me.html','HomeworkController@me');
+        Route::get('classhome/{id}/homework/create.html','HomeworkController@create');
+
+//        ___________________________
+        Route::get('classhome/{id}/homework/create.html','HomeworkController@create');
+
+        Route::post('classhome/{id}/homework/store','HomeworkController@store');
+
+        Route::get('classhome/{id}/homework/{homework}','HomeworkController@read');
+
+        Route::get('classhome/{id}/homework/edit/{homework}','HomeworkController@edit');
+
+        Route::get('classhome/{id}/homework/correct/{homework}','HomeworkController@correct');
+
+        Route::get('classhome/{id}/homework/correct/{homework}/{stuhomework}','HomeworkController@correcthome');
+
+        Route::post('classhome/{id}/homework/correct/{homework}/{stuhomework}','HomeworkController@correctgive');
+
+        Route::put('classhome/{id}/homework/{homework}','HomeworkController@update');
+
+        Route::delete('classhome/{id}/homework/{homework}','HomeworkController@destroy');
+//        查询已交作业
+
+
     });
 
 
@@ -179,7 +205,7 @@ Route::group(['middleware'=>'auth'],function (){
     #_______________________________________________黄金分割线---学生路由
     Route::group(['prefix' => 'student','middleware' => ['role:student']],function (){
 
-        #___________作业提交，作业查询，分数统计
+        //        提交作业模块
 
         #___________成绩管理
 
@@ -204,11 +230,8 @@ Route::group(['middleware'=>'auth'],function (){
     });
 
     #__________________________________________________黄金分割线——管理员路由
-    Route::group(['prefix' => 'admin','middleware' => ['role:admin']],function (){
-        #___________管理生成教师等
-
-
-        #_____________高级管理
+    Route::group(['prefix' => 'admin','middleware' => ['role:admin|owner']],function (){
+//        管理界面
 
     });
 });

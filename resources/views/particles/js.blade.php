@@ -35,37 +35,86 @@
 <!-- AdminLTE for demo purposes -->
 {{--<script src="{{ asset('admin/dist/js/demo.js') }}"></script>--}}
 <script>
-    htmlobj = $.ajax(
-        {
-            type: "GET",
-            url: "{{url('/message/getshixing')}}",
-            success: function () {
-                var data = htmlobj.responseText;
-                $('#shixing').empty();
-                $("#shixing").html(htmlobj.responseText);
-            },
-            error: function () {
-            }
-
-        });
-    setInterval(function () {
-        htmlobj = $.ajax(
+    function a(){
+        htmlobj1 = $.ajax(
             {
                 type: "GET",
                 url: "{{url('/message/getshixing')}}",
                 success: function () {
-                    var data = htmlobj.responseText;
                     $('#shixing').empty();
-                    $("#shixing").html(htmlobj.responseText);
+                    $('#shixing').html(htmlobj1.responseText);
                 },
                 error: function () {
                 }
 
             });
+        htmlobj2 = $.ajax(
+            {
+                type: "GET",
+                url: "{{url('/message/shengqing')}}",
+                success: function () {
+                    $('#shengqing').empty();
+                    $('#shengqing').html(htmlobj2.responseText);
+                },
+                error: function () {
+                }
 
+            });
+        htmlobj3 = $.ajax(
+            {
+                type: "GET",
+                url: "{{url('/message/banji')}}",
+                success: function () {
+                    $('#banji').empty();
+                    $('#banji').html(htmlobj3.responseText);
+                },
+                error: function () {
+                }
 
-    }, 3000);
+            });
+    }
+    a();
+
+        setInterval(function () {
+            htmlobj1 = $.ajax(
+                {
+                    type: "GET",
+                    url: "{{url('/message/getshixing')}}",
+                    success: function () {
+                        $('#shixing').empty();
+                        $('#shixing').html(htmlobj1.responseText);
+                    },
+                    error: function () {
+                    }
+
+                });
+            htmlobj2 = $.ajax(
+                {
+                    type: "GET",
+                    url: "{{url('/message/shengqing')}}",
+                    success: function () {
+                        $('#shengqing').empty();
+                        $('#shengqing').html(htmlobj2.responseText);
+                    },
+                    error: function () {
+                    }
+
+                });
+            htmlobj3 = $.ajax(
+                {
+                    type: "GET",
+                    url: "{{url('/message/banji')}}",
+                    success: function () {
+                        $('#banji').empty();
+                        $('#banji').html(htmlobj3.responseText);
+                    },
+                    error: function () {
+                    }
+
+                });
+        }, 3000);
 
 
 
 </script>
+@yield('js')

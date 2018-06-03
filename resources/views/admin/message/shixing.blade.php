@@ -22,15 +22,15 @@
                         <p>{{$message->content }}</p>
                     </a>
                 </li>
-                @empty
-                    <li><a href="#">
-                            <div class="pull-left">
-                                暂无
-                            </div>
-                        </a></li>
-            @endforelse
-            <!-- end message -->
-
-                <li class="footer"><a href="/message/index.html">查看详情</a></li>
             </ul>
+    @empty
+        <li><a href="#">
+                <div class="pull-left">
+                    暂无
+                </div>
+            </a>
+            @endforelse
+
+        </li>
+        <li class="footer"><a href="/message/index.html">查看详情</a></li>
 </ul>

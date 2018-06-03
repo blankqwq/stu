@@ -15,19 +15,21 @@ use Illuminate\Support\Facades\Storage;
 
 class ClassHomeController extends Controller
 {
-    public function __construct()
-    {
-//        $this->middleware('');
+    public function check(Classes $classes){
+        if (!Auth::user()->classes()->wherePivot('class_id',$classes->id)->count()>0)
+            abort('403');
     }
 
     public function index($id){
         $classe=Classes::with('boss','types')->withCount('messages')->find($id);
+        $this->check($classe);
         if (!$classe)
             abort('404');
+        $homecount=Classes::find($id)->homeworks()->count();
         $gongaocount=Classes::find($id)->messages()->where('type_id','1')->count();
         $xuqiucount=Classes::find($id)->messages()->where('type_id','2')->count();
         $messages=Classes::find($id)->messages()->with('sender')->where('type_id','1')->orderby('created_at','desc')->paginate(15);
-        return view('admin.class.home.index',compact('classe','messages','gongaocount','xuqiucount'));
+        return view('admin.class.home.index',compact('classe','messages','gongaocount','xuqiucount','homecount'));
     }
 
     /**
@@ -37,21 +39,23 @@ class ClassHomeController extends Controller
      */
     public function write($id){
         $classe=Classes::with('boss','types')->withCount('messages')->find($id);
+        $this->check($classe);
         if (!$classe)
             abort('404');
         $messages=Classes::find($id)->messages()->where('type_id','1')->paginate(15);
         $types=MessageType::all();
+        $homecount=Classes::find($id)->homeworks()->count();
         $gongaocount=Classes::find($id)->messages()->where('type_id','1')->count();
         $xuqiucount=Classes::find($id)->messages()->where('type_id','2')->count();
-        return view('admin.class.home.write',compact('classe','messages','types','gongaocount','xuqiucount'));
+        return view('admin.class.home.write',compact('classe','messages','types','gongaocount','xuqiucount','homecount'));
     }
 
 
     public function send($id,Request $request){
-        $input=$request->only('title','content','type_id');
-
-        $input['content']=clean($input['content']);
         $classe=Classes::find($id);
+        $this->check($classe);
+        $input=$request->only('title','content','type_id');
+        $input['content']=clean($input['content']);
         $input['can_reply']=1;
         if (!$classe)
             abort('404');
@@ -75,13 +79,15 @@ class ClassHomeController extends Controller
 
     public function xuqiu($id){
         $classe=Classes::with('boss','types')->withCount('messages')->find($id);
+        $this->check($classe);
         if (!$classe)
             abort('404');
         $messages=Classes::find($id)->messages()->where('type_id','2')->orderby('created_at','desc')->paginate(15);
         $types=MessageType::all();
         $gongaocount=Classes::find($id)->messages()->where('type_id','1')->count();
         $xuqiucount=Classes::find($id)->messages()->where('type_id','2')->count();
-        return view('admin.class.home.xuqiu',compact('classe','messages','types','gongaocount','xuqiucount'));
+        $homecount=Classes::find($id)->homeworks()->count();
+        return view('admin.class.home.xuqiu',compact('classe','messages','types','gongaocount','xuqiucount','homecount'));
     }
 
 

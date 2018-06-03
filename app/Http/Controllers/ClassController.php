@@ -156,7 +156,7 @@ class ClassController extends Controller
                 }
             } else {
                 if ($classe->password == $request->input('password')) {
-                    $input['title'] = '有人申请加入您的' . $classe->name;
+                    $input['title'] =Auth::user()->name.'申请加入您的' . $classe->name;
                 } else {
                     return "<script>alert('密码错误');window.location.href='/join/class/" . $classe->id . "'</script>";
                 }
