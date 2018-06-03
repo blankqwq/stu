@@ -123,7 +123,29 @@ class MessageController extends Controller
         $message_number=$message->count();
 //        dd($messages);
         return view('admin.message.shixing',compact('messages','message_number'));
+    }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getshengqing(){
+        $message=Auth::user()->messages()->with('senderinfo')->where('type_id','4');
+        $messages=$message->get();
+        $message_number=$message->count();
+//        dd($messages);
+        return view('admin.message.shengqing',compact('messages','message_number'));
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getbanji(){
+        $message=Auth::user()->classes()->with('messages');
+        $messages=$message->get();
+        $message_number=$message->count();
+//        dd($messages);
+//        return "1";
+        return view('admin.message.banji',compact('messages','message_number'));
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
+
 
 class CheckClassUser
 {
@@ -15,6 +17,7 @@ class CheckClassUser
      */
     public function handle($request, Closure $next)
     {
+        Auth::user();
         return $next($request);
     }
 }

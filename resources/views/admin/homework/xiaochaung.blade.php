@@ -1,0 +1,38 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h4 class="modal-title" id="myModalLabel">批改小窗</h4>
+        </div>
+        <div class="modal-body">
+
+            <form action="/classhome/{{ $classe->id }}/homework/correct/{{ $stuhomework->homeworks->id }}/{{$stuhomework->id}}" method="post">
+                {{csrf_field()}}
+                <div class="form-group">
+                    <label>内容</label>
+                    <input type="text" class="form-control"
+                           value="{{ $stuhomework->content }}" disabled>
+                </div>
+                <div class="form-group">
+                    <label>文件</label>
+                    <p>
+                        <a href="{{$stuhomework->attachment}}">{{ preg_replace("[.+/.+/]",'',$stuhomework->attachment) }}</a>
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label>分数</label>
+                    <input type="text" class="form-control" name="fraction"
+                           value="{{ $stuhomework->fraction }}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="submit" class="btn btn-primary">提交更改</button>
+                </div>
+            </form>
+        </div><!-- /.modal -->
+
+    </div>
+</div>

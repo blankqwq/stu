@@ -63,4 +63,8 @@ class User extends Authenticatable
     public function messages(){
         return $this->morphMany(Message::class,'messagetable');
     }
+
+    public function stuhomeworks(){
+        return $this->hasMany(StuHomework::class,'user_id','id');
+    }
 }

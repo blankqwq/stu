@@ -42,4 +42,8 @@ class Classes extends Model
     public function getallusers(){
         return $this->belongsToMany(User::class,'user_classes','class_id','user_id')->with('getinfo');
     }
+
+    public function homeworks(){
+        return $this->hasMany(Homework::class,'class_id','id');
+    }
 }
