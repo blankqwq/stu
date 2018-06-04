@@ -115,10 +115,6 @@ Route::group(['middleware'=>'auth'],function (){
     });
 
     #_________________________站内消息(发送什么的)__________________
-    Route::get('test',function (){
-        $user=\App\Classes::find(1)->messages()->create(['title'=>'你好','type_id'=>1,'content'=>'哈哈哈','user_id'=>\Illuminate\Support\Facades\Auth::id()]);
-        dd($user);
-    });
 
     Route::group([],function (){
         //默认收件箱页面
@@ -154,6 +150,12 @@ Route::group(['middleware'=>'auth'],function (){
         //撤回消息
         Route::post('message/{id}/del');
 
+        //获取班级申请信息然后就直接选择同意or不同意
+        //1.点击token即可同意加入，我们在消息处加上一个这种连接即可,,可是全体都得改一下了
+        Route::get('message/request/agree','MessageController@agreerequest');
+        //点击即同意或者不同意
+        Route::get('message/request/{id}','MessageController@getrequest');
+
     });
 
     #_________________ClassHome班级主页交作业
@@ -183,6 +185,9 @@ Route::group(['middleware'=>'auth'],function (){
 
         Route::get('classhome/{id}/homework/correct/{homework}','HomeworkController@correct');
 
+        Route::post('classhome/{id}/homework/{homework}','StuHomeworkController@post');
+
+
         Route::get('classhome/{id}/homework/correct/{homework}/{stuhomework}','HomeworkController@correcthome');
 
         Route::post('classhome/{id}/homework/correct/{homework}/{stuhomework}','HomeworkController@correctgive');
@@ -195,8 +200,9 @@ Route::group(['middleware'=>'auth'],function (){
 
     });
 
-
-
+    Route::group([],function (){
+        Route::get('permissions/{class}/{id}','PermissionController@giveclass');
+    });
 
     #_________________________即时聊天系统__________________
 

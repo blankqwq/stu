@@ -162,8 +162,7 @@ class HomeworkController extends Controller
         $homecount=$classe->homeworks()->count();
         $gongaocount=$classe->messages()->where('type_id','1')->count();
         $xuqiucount=$classe->messages()->where('type_id','2')->count();
-        $stuhomeworks=$classe->homeworks()->find($id)->stuhomeworks()->with('homeworks')->paginate(15);
-//        dd($stuhomeworks);
+        $stuhomeworks=$classe->homeworks()->find($homework)->stuhomeworks()->with('homeworks')->paginate(15);
         return view('admin.homework.correct',compact('stuhomeworks','classe','xuqiucount','gongaocount','homecount'));
     }
 
@@ -174,13 +173,21 @@ class HomeworkController extends Controller
         return view('admin.homework.xiaochaung',compact('stuhomework','classe'));
     }
 
+
+    /**
+     * @param $id
+     * @param $homework
+     * @param $stuhomework
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * 批改分数
+     */
     public function correctgive($id,$homework,$stuhomework,Request $request){
         $classe=Classes::find($id);
         $this->check($classe);
         $stuhomework=$classe->homeworks()->find($homework)->stuhomeworks()->where('id',$stuhomework);
         $stuhomework->update(['fraction'=>$request->input('fraction')]);
         return redirect('classhome/'.$id.'/homework/correct/'.$homework);
-
     }
 
 

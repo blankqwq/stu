@@ -32,7 +32,7 @@ class Classes extends Model
      * 获取用户
      */
     public function users(){
-        return $this->belongsToMany(User::class,'user_classes','class_id','user_id');
+        return $this->belongsToMany(User::class,'user_classes','class_id','user_id')->wherePivot('token', null);;
     }
 
     public function messages(){

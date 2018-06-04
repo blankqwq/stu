@@ -91,6 +91,9 @@
                                             <a href="/class/{{ $classe->id }}"><span
                                                         class="label label-success">成员查看</span>
                                             </a>
+                                            <a href="/join/class/{{$classe->id}}"><span
+                                                        class="label label-success">加入班级</span>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -91,7 +91,7 @@
                                             <a href="/class/{{ $classe->id }}"><span
                                                         class="label label-success">成员查看</span>
                                             </a>
-                                            <a href="/classhome/{{ $classe->id }}"><span
+                                            <a href="/classhome/{{ $classe->id }}/index.html"><span
                                                         class="label label-danger">{{$classe->types->first()->category}}主页</span>
                                             </a>
                                         </td>

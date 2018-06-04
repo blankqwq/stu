@@ -33,7 +33,7 @@ class CreateClassesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->comment('用户id');
             $table->integer('class_id')->unsigned()->comment('班级id');
-            $table->unsignedSmallInteger('is_join')->nullable()->comment('是否加入(加入为空，还未审核，表示有)');
+            $table->string('token')->nullable()->comment('是否加入(加入为空，还未审核，表示有)');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
