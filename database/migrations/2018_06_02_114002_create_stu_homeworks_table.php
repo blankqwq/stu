@@ -20,7 +20,7 @@ class CreateStuHomeworksTable extends Migration
 //            多对一
             $table->text('content')->comment('内容');
             $table->string('attachment')->comment('文件url');
-            $table->unsignedInteger('fraction')->comment('分数');
+            $table->unsignedInteger('fraction')->nullable()->comment('分数');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')

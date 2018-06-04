@@ -12,13 +12,14 @@
                 {{csrf_field()}}
                 <div class="form-group">
                     <label>内容</label>
-                    <input type="text" class="form-control"
-                           value="{{ $stuhomework->content }}" disabled>
+                    <div>
+                        {!!$stuhomework->content !!}
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>文件</label>
                     <p>
-                        <a href="{{$stuhomework->attachment}}">{{ preg_replace("[.+/.+/]",'',$stuhomework->attachment) }}</a>
+                        <a href="{{$stuhomework->attachment}}" target="_blank">{{ preg_replace("[.+/.+/]",'',$stuhomework->attachment) }}</a>
                     </p>
                 </div>
                 <div class="form-group">

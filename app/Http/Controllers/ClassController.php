@@ -6,6 +6,7 @@ use App\Classes;
 use App\ClassType;
 use App\Http\Requests\ClassesRequest;
 use App\Jobs\JoinClassMessage;
+use App\Jobs\SendToClassRoleJob;
 use App\Message;
 use App\Role;
 use App\User;
@@ -23,7 +24,7 @@ class ClassController extends Controller
      */
     public function me()
     {
-        $classes = User::find(Auth::id())->classes()->withPivot('created_at', 'is_join')->with('types', 'boss')->paginate(15);;
+        $classes = User::find(Auth::id())->classes()->withPivot('created_at')->with('types', 'boss')->paginate(15);;
         return view('admin.class.me', compact('classes'));
     }
 
@@ -147,16 +148,21 @@ class ClassController extends Controller
         $input = $request->only('content');
         if (Auth::user()->classes()->find($id))
             return "<script>alert('您已经加入了,点击确定自动跳转到班级页面');window.location.href='/classhome/" . $classe->id . "/index.html'</script>";
+        if (Auth::user()->notclasses()->find($id)){
+            return "<script>alert('您已经发送通知了，请等待');window.location.href='/classes/me'</script>";
+        }
         try {
             if ($classe->verification == 0) {
                 if ($classe->password == $request->input('password')) {
-                    $input['title'] = '我已近您的' . $classe->name;
+                    $input['title'] = '我已加入您的' . $classe->name;
+                    $a=null;
                 } else {
                     return "密码错误";
                 }
             } else {
                 if ($classe->password == $request->input('password')) {
                     $input['title'] =Auth::user()->name.'申请加入您的' . $classe->name;
+                    $a=str_random(20);
                 } else {
                     return "<script>alert('密码错误');window.location.href='/join/class/" . $classe->id . "'</script>";
                 }
@@ -164,10 +170,10 @@ class ClassController extends Controller
             $input['user_id'] = Auth::id();
             $input['can_reply'] = 1;
             $input['type_id'] = 4;
-            //组织消息发送邮件
+            $b=Auth::user()->classes()->save($classe, ['token' => $a]);
+            $input['content']=$input['content']."<a href='".url('/message/request/agree?token='.$a)."'>点击该用户同意加入班级</a>";
             $message = $classe->boss()->first()->messages()->create($input);
-            $user = $classe->boss()->first();
-            $this->dispatch(new JoinClassMessage($user, $message));
+            $this->dispatch(new SendToClassRoleJob($classe, $message));
         } catch (\Exception $exception) {
             abort('404');
         }

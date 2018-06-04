@@ -50,7 +50,7 @@ class User extends Authenticatable
      * 获取对应的班级
      */
     public function classes(){
-        return $this->belongsToMany(Classes::class,'user_classes','user_id','class_id');
+        return $this->belongsToMany(Classes::class,'user_classes','user_id','class_id')->wherePivot('token', null);;
     }
 
     /**
@@ -66,5 +66,9 @@ class User extends Authenticatable
 
     public function stuhomeworks(){
         return $this->hasMany(StuHomework::class,'user_id','id');
+    }
+
+    public function notclasses(){
+        return $this->belongsToMany(Classes::class,'user_classes','user_id','class_id');
     }
 }

@@ -23,7 +23,7 @@ class MessageController extends Controller
      */
     public function homereceive()
     {
-        $messages = Auth::user()->messages()->onlyTrashed()->with('senderinfo')->where('type_id','3')->paginate(15);
+        $messages = Auth::user()->messages()->onlyTrashed()->with('senderinfo')->where('type_id','>','2')->paginate(15);
         return view('admin.message.receive',compact('messages'));
     }
 
@@ -34,7 +34,7 @@ class MessageController extends Controller
      */
     public function homeuser()
     {
-        $messages = Auth::user()->messages()->with('senderinfo')->where('type_id','3')->paginate(15);
+        $messages = Auth::user()->messages()->with('senderinfo')->where('type_id','>','2')->paginate(15);
         return view('admin.message.index',compact('messages'));
     }
 
@@ -169,5 +169,31 @@ class MessageController extends Controller
     public function xiangqing($id){
         $onemessage=Message::withTrashed()->with('sender')->find($id);
         return view('admin.message.xiangqing',compact('onemessage'));
+    }
+
+    public function agreerequest(Request $request){
+        $input=$request->only('token');
+        $data=DB::table('user_classes')->where('token',$input['token']);
+        if (!$data->first())
+            return "<script>alert('未找到加入信息');window.location.href='/message/index.html'</script>";
+        if (Auth::user()->hasRole('class'.$data->first()->class_id)){
+            $bbc=$data->first();
+            $data->update(['token'=>null]);
+//            这里来一条短信
+            $input=[
+                'user_id'=>Auth::id(),
+                'title'=>Auth::user()->getinfo()->first()->name,
+                'content'=>'我已经同意您加入我的班级，'."<a href='/classhome/".$bbc->class_id."/index.html'> 点击进入主页</a>",
+                'type_id'=>3,
+                'can_reply'=>0
+            ];
+//            dd($input);
+            $user=User::find($bbc->user_id);
+            $message=User::find($bbc->user_id)->messages()->create($input);
+            $this->dispatch(new JoinClassMessage($user, $message));
+            return "<script>alert('同意成功');window.location.href='/message/index.html'</script>";
+        }else{
+            return "<script>alert('没有权限');window.location.href='/home'</script>";
+        }
     }
 }

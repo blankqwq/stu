@@ -74,7 +74,8 @@
                     <li><a href="/classes/create"><i class="fa fa-circle-o"></i> 创建班级</a></li>
                     <li><a href="/all/classes"><i class="fa fa-circle-o"></i> 全部班级</a></li>
                     <li><a href="/classes/verify"><i class="fa fa-circle-o"></i> 审批班级</a></li>
-                    <li><a href="/classes/my"><i class="fa fa-circle-o"></i> 我的的班级</a></li>
+                    <li><a href="/classes/my"><i class="fa fa-circle-o"></i> 我创建的班级</a></li>
+                    <li><a href="/classes/me"><i class="fa fa-circle-o"></i> 我加入的班级</a></li>
                 </ul>
             </li>
             <li class="treeview">
