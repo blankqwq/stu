@@ -9,7 +9,11 @@
             <ul class="menu">
                 <li>
                     <a href="/classhome/{{ $message->id }}/index.html"> {{ $message->name }}
-                        <i class="fa fa-users text-aqua"></i> {{$message->messages->last()->title }}
+                        @if($message->messages->last())
+                            <i class="fa fa-users text-aqua"></i> {{$message->messages->last()->title }}
+                            @else
+                            <i class="fa fa-users text-aqua"></i>暂无最新消息
+                        @endif
                     </a>
                 </li>
             </ul>

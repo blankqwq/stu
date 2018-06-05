@@ -87,7 +87,16 @@ class HomeworkController extends Controller
 
     public function destroy($id,Request $request)
     {
-//        Homework::destroy($id);
+       $this->validate($request, [
+            'ids.*' => 'required|exists:homeworks,id',
+        ]);
+        $classe = Classes::find($id);
+        $ids = $request->input('ids');
+        try {
+            $classe->homeworks()->delete($ids);
+        } catch (\Exception $exception) {
+            return "0";
+        }
         return redirect()->route('homework.index',$id);
     }
 
@@ -189,6 +198,7 @@ class HomeworkController extends Controller
         $stuhomework->update(['fraction'=>$request->input('fraction')]);
         return redirect('classhome/'.$id.'/homework/correct/'.$homework);
     }
+
 
 
 

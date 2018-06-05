@@ -23,7 +23,7 @@ class MessageController extends Controller
      */
     public function homereceive()
     {
-        $messages = Auth::user()->messages()->onlyTrashed()->with('senderinfo')->where('type_id','>','2')->paginate(15);
+        $messages = Auth::user()->messages()->with('senderinfo')->where('is_read',1)->where('type_id','>','2')->paginate(15);
         return view('admin.message.receive',compact('messages'));
     }
 
@@ -34,11 +34,12 @@ class MessageController extends Controller
      */
     public function homeuser()
     {
-        $messages = Auth::user()->messages()->with('senderinfo')->where('type_id','>','2')->paginate(15);
+        $messages = Auth::user()->messages()->with('senderinfo')->where('is_read',null)->where('type_id','>','2')->paginate(15);
         return view('admin.message.index',compact('messages'));
     }
 
 
+    //已发送的查询
     public function outhome(){
         $messages = Message::withTrashed()->where('user_id',Auth::id())->paginate(15);
         return view('admin.message.outbox',compact('messages'));
@@ -50,14 +51,11 @@ class MessageController extends Controller
      */
     public function sendhome()
     {
-        //选择班级或者用户，一并获取
-        //这里需要选择对象
         $datas = Auth::user()->classes()->with('users','getallusers', 'boss')->get();
-//        dd($datas);
         return view('admin.message.send',compact('datas'));
     }
 
-    //已读操作
+    //加入回收站操作
     public function destroy(Request $request)
     {
         $this->validate($request, [
@@ -74,6 +72,7 @@ class MessageController extends Controller
     }
 
 
+    //回复回收站内容
     public function restore(Request $request)
     {
         $this->validate($request, [
@@ -108,7 +107,7 @@ class MessageController extends Controller
         }catch (\Exception $exception){
             abort('500');
         }
-        redirect('/message/outbox.html');
+        return redirect('/message/outbox.html');
 
 
     }
@@ -118,7 +117,7 @@ class MessageController extends Controller
      *
      */
     public function getshixing(){
-        $message=Auth::user()->messages()->with('senderinfo')->where('type_id','3');
+        $message=Auth::user()->messages()->with('senderinfo')->where('is_read',null)->where('type_id','3');
         $messages=$message->get();
         $message_number=$message->count();
 //        dd($messages);
@@ -129,7 +128,7 @@ class MessageController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getshengqing(){
-        $message=Auth::user()->messages()->with('senderinfo')->where('type_id','4');
+        $message=Auth::user()->messages()->with('senderinfo')->where('is_read',null)->where('type_id','4');
         $messages=$message->get();
         $message_number=$message->count();
 //        dd($messages);
@@ -195,5 +194,51 @@ class MessageController extends Controller
         }else{
             return "<script>alert('没有权限');window.location.href='/home'</script>";
         }
+    }
+
+    //这是一个回复函数，当然只能回复别人发送给我的信息，查询回复，只需要我们加入一个with
+    public function reply(){
+
+    }
+
+//    已读操作
+    public function isread(Request $request){
+        $this->validate($request, [
+            'ids.*' => 'required|exists:messages,id',
+        ]);
+        $ids=$request->input('ids');
+
+        foreach ($ids as $id){
+            $message =User::find(Auth::id())->messages()->where('is_read',null)->where('id',$id);
+            if ($message){
+                //修改为已1读
+                $message->update(['is_read'=>1]);
+            }
+        }
+        return redirect('/message/index.html');
+    }
+
+    //修改为未读
+    public function noread(Request $request){
+        $this->validate($request, [
+            'ids.*' => 'required|exists:messages,id',
+        ]);
+        $ids=$request->input('ids');
+
+        foreach ($ids as $id){
+            $message =User::find(Auth::id())->messages()->where('is_read',1)->where('id',$id);
+            if ($message){
+                //修改为已1读
+                $message->update(['is_read'=>null]);
+            }
+        }
+        return redirect('/message/index.html');
+    }
+
+//    查询回收站
+    public function trash(){
+        $messages = Auth::user()->messages()->onlyTrashed()->with('senderinfo')->where('type_id','>','2')->paginate(15);
+        return view('admin.message.trash',compact('messages'));
+
     }
 }

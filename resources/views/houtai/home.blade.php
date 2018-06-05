@@ -1,0 +1,2 @@
+@extends('houtai.layouts.app')
+

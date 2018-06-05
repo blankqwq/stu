@@ -7,6 +7,7 @@
                 $('[id=read]').click(function () {
                     htmlobj = $.ajax(
                         {
+
                             type: "GET",
                             url: this.href,
                             success: function () {
@@ -46,7 +47,7 @@
                         </div>
                     </div>
                     <div class="box-body table-responsive no-padding">
-                        <form action="/message/noread" method="post">
+                        <form action="/message/restore" method="post">
                             <table class="table table-hover">
                                 <tr>
                                     <th>#</th>
@@ -56,37 +57,28 @@
                                     <th>发送时间</th>
                                 </tr>
                                 {{ csrf_field() }}
-                                {{method_field('delete')}}
                                 @forelse($messages as $message)
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" value="{{ $message->id }}" name="ids[]">
-                                            </td>
-                                            <td>{{ $message->title }}</td>
-                                            <td>{!!  mb_substr(strip_tags($message->content),0,30) !!}</td>
-                                            <td>{{ $message->sender->email }} {{ $message->sender->getinfo->first()->name }}</td>
-                                            <td>{{\Carbon\Carbon::parse($message->created_at)->diffForHumans()}}</td>
-
-                                            <td><a href="/message/{{$message->id}}.html" id="read"><span
-                                                            class="label label-warning">查看详情</span></a>
-                                                <a href="/message" id="read"><span
-                                                            class="label label-default">回复</span></a>
-                                            </td>
-                                        </tr>
-                                    {{--@endif--}}
-                                @empty
                                     <tr>
-                                        <td>暂无消息</td>
+                                        <td>
+                                            <input type="checkbox" value="{{ $message->id }}" name="ids[]">
+                                        </td>
+                                        <td>{{ $message->title }}</td>
+                                        <td>{!!  mb_substr(strip_tags($message->content),0,30) !!}</td>
+                                        <td>{{ $message->sender->email }} {{ $message->sender->getinfo->first()->name }}</td>
+                                        <td>{{\Carbon\Carbon::parse($message->created_at)->diffForHumans()}}</td>
+
+                                        <td><a href="/message/{{$message->id}}.html" id="read"><span
+                                                        class="label label-warning">查看详情</span></a>
+                                        </td>
                                     </tr>
+
+                                @empty
+                                    <tr> <td>暂无消息</td></tr>
                                 @endforelse
                             </table>
 
                             <div class="box-footer">
-                                <button class="btn btn-google btn-sm ">设置未读</button>
-                                <button class="btn btn-adn btn-github" onclick="this.form.action='/message/destroy';">
-                                    移动到回收站
-                                </button>
-
+                                <button class="btn btn-google btn-sm ">恢复</button>
                                 <ul class="pagination pagination-sm no-margin pull-right">
                                     {{ $messages->links() }}
                                 </ul>

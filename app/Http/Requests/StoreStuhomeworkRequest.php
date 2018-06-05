@@ -13,7 +13,7 @@ class StoreStuhomeworkRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class StoreStuhomeworkRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'attachment'=>'mimes:jpeg,bmp,png,zip',
+            'content'=>'required|min:2'
         ];
     }
 }

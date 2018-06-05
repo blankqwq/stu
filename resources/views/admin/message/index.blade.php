@@ -81,7 +81,8 @@
                             </table>
 
                             <div class="box-footer">
-                                <button class="btn btn-google btn-sm ">已读</button>
+                                <button class="btn btn-google btn-sm ">放入到回收站</button>
+                                <button class="btn btn-github btn-sm " onclick="this.form.action='/message/read';">已读</button>
                                 <ul class="pagination pagination-sm no-margin pull-right">
                                     {{ $messages->links() }}
                                 </ul>

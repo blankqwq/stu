@@ -17,8 +17,11 @@ class EventServiceProvider extends ServiceProvider
 //        'App\Events\Event' => [
 //            'App\Listeners\EventListener',
 //        ],
-        'App\Events\JoinClass'=>[
-            'App\Listeners\SendJoinMessage'
+//        'App\Events\JoinClass'=>[
+//            'App\Listeners\SendJoinMessage'
+//        ]
+        'App\Events\PostHomework'=>[
+            'App\Listeners\SendMessage'
         ]
     ];
 

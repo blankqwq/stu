@@ -15,6 +15,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer( 'admin.*', 'App\Http\ViewComposers\AdminComposer');
+        View::composer( 'houtai.*', 'App\Http\ViewComposers\HoutaiComposer');
 
     }
 
