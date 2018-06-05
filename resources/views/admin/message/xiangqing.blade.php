@@ -66,7 +66,7 @@
 
             <p class="message">
                 <a href="#" class="name">
-                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small>
+                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 回复人。。。。需要改进，变成多级回复</small>
                     Susan Doe
                 </a>
                 I would like to meet you to discuss the latest news about

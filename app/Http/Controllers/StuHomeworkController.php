@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Classes;
 use App\Homework;
+use App\Http\Requests\StoreStuhomeworkRequest;
 use App\StuHomework;
+use App\User;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -24,7 +26,7 @@ class StuHomeworkController extends Controller
 
     }
 
-    public function post($id, $homework, Request $request)
+    public function post($id, $homework, StoreStuhomeworkRequest $request)
     {
         $classe = Classes::find($id);
         $this->check($classe);
@@ -37,11 +39,15 @@ class StuHomeworkController extends Controller
             $input['attachment'] = $this->upload($request);
             $input['user_id'] = Auth::id();
             $input['homework_id']=$homework->id;
+            User::find($homework->user_id)->messages()->create([
+               'content'=>'您收到一份作业，请批改',
+               'title'=>Auth::user()->getinfo()->name.'提交了一份作业<'.$homework->title.'>',
+            ]);
             $stuhomework=StuHomework::create($input);
         }catch (\Exception $exception){
             abort('500');
         }
-        return "回复成功";
+        return "提交成功";
     }
 
     public function upload(Request $request)

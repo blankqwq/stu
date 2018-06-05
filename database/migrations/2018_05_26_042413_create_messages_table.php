@@ -23,6 +23,7 @@ class CreateMessagesTable extends Migration
             $table->string('messagetable_type')->comment('关联模型的名字');
             $table->unsignedInteger('enclosure_id')->nullable()->comment('关联附件表');
             $table->unsignedSmallInteger('can_reply')->comment('能否被回复');
+            $table->unsignedSmallInteger('is_read')->nullable()->comment('是否已经被阅读了');
             $table->timestamps();
             $table->softDeletes()->comment('软删除');
         });

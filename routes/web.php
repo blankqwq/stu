@@ -121,6 +121,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('message/index.html','MessageController@homeuser');
 
         Route::get('message/receive.html','MessageController@homereceive');
+        Route::get('message/trash.html','MessageController@trash');
         //发送消息的界面
         Route::get('message/send.html','MessageController@sendhome');
         Route::get('message/outbox.html','MessageController@outhome');
@@ -128,25 +129,29 @@ Route::group(['middleware'=>'auth'],function (){
         //发送消息
 
         Route::post('message/send','MessageController@send');
-        Route::delete('message/destroy','MessageController@destroy');
+        //删除操作
+        Route::post('message/destroy','MessageController@destroy');
+        //恢复操作
         Route::delete('message/restore','MessageController@restore');
+        //设置已读
+        Route::delete('message/read','MessageController@isread');
+        //设置未读
+        Route::delete('message/noread','MessageController@noread');
 
-
+        //消息的回复
+        Route::post('message/reply','MessageController@reply');
 
         //动态获取一些信息
         Route::get('message/getshixing','MessageController@getshixing');
+        //动态获取班级中的需求什么的，自动获取追后一个
         Route::get('message/banji','MessageController@getbanji');
+        //动态获取申请的信息，
         Route::get('message/shengqing','MessageController@getshengqing');
-
 
 
 
         //获取信息详情
         Route::get('message/{id}','MessageController@index');
-        //设置已读
-        Route::post('message/{id}/read');
-        //设置未读
-        Route::post('message/{id}/noread');
         //撤回消息
         Route::post('message/{id}/del');
 
@@ -237,7 +242,36 @@ Route::group(['middleware'=>'auth'],function (){
 
     #__________________________________________________黄金分割线——管理员路由
     Route::group(['prefix' => 'admin','middleware' => ['role:admin|owner']],function (){
-//        管理界面
+        Route::get('home.html','AdminController@home');
+
+//        各种管理界面的首页路由
+            //user
+            Route::get('users/index.html','AdminController@userindex');
+            //class
+            Route::get('classes/index.html','AdminController@classindex');
+            //permission
+            Route::get('permissions/index.html','AdminController@permissionindex');
+            //tiku
+            Route::get('tikus/index.html','AdminController@tikuindex');
+            //file
+            Route::get('files/index.html','AdminController@fileindex');
+        //开始控制器走一波,
+        Route::group([],function (){
+//            ______用户管理_______
+
+
+
+
+//            _______班级管理_________
+
+//            __________权限管理_______
+
+
+//            ________题库管理_________
+
+//            _______文件管理______
+        });
+
 
     });
 });

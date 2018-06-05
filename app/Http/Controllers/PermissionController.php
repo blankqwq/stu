@@ -19,18 +19,27 @@ class PermissionController extends Controller
     public function giveclass($class,$id){
 //        给予班级管理员权限
         $classrole=Role::where('name','class'.$class)->first();
-//        dd(User::find($id)->hasRole('class'.$class));
         if (User::find($id)->hasRole('class'.$class)){
             return "<script>alert('该用户已经为管理员了');window.location.href='/class/$class'</script>";
         }else{
             $this->checkrole($classrole);
             $user=User::find($id)->roles()->attach($classrole);
         }
+        return "ok";
 
     }
 
     public function delclass($class,$id){
         //删除班级权限
+        $classrole=Role::where('name','class'.$class)->first();
+        $this->checkrole($classrole);
+        if (User::find($id)->hasRole('class'.$class)){
+            return "<script>alert('该用户已经为不是管理员了');window.location.href='/class/$class'</script>";
+        }else{
+            $this->checkrole($classrole);
+            $user=User::find($id)->roles()->detach($classrole);
+        }
+        return "ok";
 
     }
 }

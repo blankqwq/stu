@@ -4,7 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class File extends Model
+class Tiku extends Model
 {
+    protected $table='tiku';
     //
 }
