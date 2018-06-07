@@ -1,5 +1,6 @@
 @extends('layouts.admin')
-
+@section('message','active')
+@section('message-post','active')
 @section('content')
     <div class="row">
         <div class="col-md-12">

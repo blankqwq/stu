@@ -1,6 +1,9 @@
 @extends('layouts.admin')
+@section('zhu-menu','active')
+@section('zhu-menu-home','active')
 
 @section('content')
+
 
     <section class="content-header">
         <h1>

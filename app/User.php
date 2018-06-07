@@ -71,4 +71,8 @@ class User extends Authenticatable
     public function notclasses(){
         return $this->belongsToMany(Classes::class,'user_classes','user_id','class_id');
     }
+
+    public function files(){
+        return $this->morphMany(File::class,'filetable');
+    }
 }

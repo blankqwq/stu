@@ -46,4 +46,9 @@ class Classes extends Model
     public function homeworks(){
         return $this->hasMany(Homework::class,'class_id','id');
     }
+
+    public function files(){
+        return $this->morphMany(File::class,'filetable');
+    }
+
 }

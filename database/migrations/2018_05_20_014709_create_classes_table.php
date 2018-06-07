@@ -19,7 +19,7 @@ class CreateClassesTable extends Migration
             $table->string('avatar')->default('/storage/upload/class/default.png')->comment('班级名字');
             $table->string('name')->comment('班级名字');
             $table->unsignedBigInteger('user_id')->comment('头目or创建者id');
-            $table->unsignedInteger('number')->comment('数量');
+//            $table->unsignedInteger('number')->comment('数量');取消，利用withcount来获取用户数量
             $table->string('password')->nullable()->comment('加入班级密码');
             $table->unsignedSmallInteger('verification')->comment('是否需要验证');
             $table->unsignedInteger('user_allow')->nullable()->comment('审核人');

@@ -1,5 +1,6 @@
 @extends('layouts.admin')
-
+@section('message','active')
+@section('message-posted','active')
 @section('content')
     <section class="content">
         <script>
