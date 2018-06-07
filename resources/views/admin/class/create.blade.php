@@ -1,5 +1,6 @@
 @extends('layouts.admin')
-
+@section('classes','active')
+@section('classes-create','active')
 
 @section('content')
     <section class="content-header">

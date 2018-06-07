@@ -26,7 +26,7 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">主菜单</li>
-            <li class="active treeview">
+            <li class=" treeview @yield('zhu-menu')">
                 <a href="#">
                     <i class="fa fa-dashboard"></i> <span>控制面板</span>
                     <span class="pull-right-container">
@@ -34,11 +34,11 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="active"><a href="/admin/home.html"><i class="fa fa-circle-o"></i> 首页</a></li>
+                    <li class="@yield('zhu-menu-home')"><a href="/admin/home.html"><i class="fa fa-circle-o"></i> 首页</a></li>
                     {{--<li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>--}}
                 </ul>
             </li>
-            <li class="treeview">
+            <li class="treeview @yield('homework')">
                 <a href="#">
                     <i class="fa fa-files-o"></i>
                     <span>作业管理</span>
@@ -47,10 +47,10 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> 全部作业</a></li>
-                    <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> 作业查询</a></li>
-                    <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> 发布作业</a></li>
-                    <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i>  </a></li>
+                    <li class="@yield('homework-all')"><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> 全部作业</a></li>
+                    <li class="@yield('homework-search')"><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> 作业查询</a></li>
+                    <li class="@yield('homework-post')"><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> 发布作业</a></li>
+                    <li class="@yield('homework-wu')"><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> </a></li>
                 </ul>
             </li>
             <li>
@@ -61,7 +61,7 @@
             </span>
                 </a>
             </li>
-            <li class="treeview">
+            <li class="treeview @yield('classes')">
                 <a href="#">
                     <i class="fa fa-pie-chart"></i>
                     <span>班级管理</span>
@@ -70,16 +70,20 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/classes/number"><i class="fa fa-circle-o"></i>创建班级</a></li>
-                    <li><a href="/classes/create"><i class="fa fa-circle-o"></i> 班级审核</a></li>
-                    <li><a href="/all/classes"><i class="fa fa-circle-o"></i> 全部班级</a></li>
+                    {{--<li class="@yield('classes-create')"><a href="/classes/number"><i class="fa fa-circle-o"></i>创建班级</a></li>--}}
+                    <li class="@yield('classes-shenhe')"><a href="/admin/classes/"><i class="fa fa-circle-o"></i> 班级审核</a></li>
+                    <li class="@yield('classes-all')"><a href="/admin/classes/index.html"><i class="fa fa-circle-o"></i> 全部班级</a></li>
+                    <li class="@yield('classes-classtype')"><a href="/admin/classtype"><i class="fa fa-circle-o"></i> 班级类型</a></li>
+                    <li class="@yield('classes-trash')"><a href="/admin/classes/trash"><i class="fa fa-circle-o"></i> 班级回收站</a></li>
+
+
                     {{--<li><a href="/classes/verify"><i class="fa fa-circle-o"></i> 审批班级</a></li>--}}
                     {{--<li><a href="/classes/my"><i class="fa fa-circle-o"></i> 我创建的班级</a></li>--}}
                     {{--<li><a href="/classes/me"><i class="fa fa-circle-o"></i> 我加入的班级</a></li>--}}
                 </ul>
             </li>
-            <li class="treeview">
-                <a href="#">
+            <li class="treeview @yield('users')">
+                <a href="/admin/users/index.html">
                     <i class="fa fa-laptop"></i>
                     <span>用户管理</span>
                     <span class="pull-right-container">
@@ -87,10 +91,9 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/users/search"><i class="fa fa-circle-o"></i> 用户搜索</a></li>
-                    <li><a href="/users/me"><i class="fa fa-circle-o"></i> 我的信息</a></li>
-                    <li><a href="/all/users"><i class="fa fa-circle-o"></i> 用户管理</a></li>
-                    <li><a href="/all/users"><i class="fa fa-circle-o"></i> 用户回收站</a></li>
+                    <li class="@yield('users-search')"><a href="/admin/users/search"><i class="fa fa-circle-o"></i> 用户搜索</a></li>
+                    <li class="@yield('users-all')"><a href="/admin/users/index.html"><i class="fa fa-circle-o"></i> 用户管理</a></li>
+                    <li class="@yield('users-trash')"><a href="/admin/users/trash"><i class="fa fa-circle-o"></i> 用户回收站</a></li>
 
                 </ul>
             </li>

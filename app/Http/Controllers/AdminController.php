@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Classes;
+use App\ClassType;
 use App\FileSystem;
 use App\Homework;
 use App\Permission;
+use App\Role;
 use App\Tiku;
 use App\User;
 use Illuminate\Http\Request;
@@ -23,15 +25,17 @@ class AdminController extends Controller
     //用户管理首页
     public function userindex(){
         $users=User::with('getinfo')->paginate(15);
-        dd($users);
-        return $users;
+        $roles=Role::all();
+        $permissions=Permission::all();
+        return view('houtai.user.index',compact('users','roles','permissions'));
     }
 
     //班级管理首页
     public function classindex(){
         $classes=Classes::with('boss','homeworks')->withCount('users')->paginate(15);
-        dd($classes);
-        return $classes;
+//        dd($classes);
+        $types=ClassType::all();
+        return view('houtai.classes.index',compact('classes','types'));
     }
 
     //文件管理首页
@@ -48,8 +52,13 @@ class AdminController extends Controller
 
     // 权限管理首页
     public function permissionindex(){
-        $permissions=Permission::all()->paginate();
+        $permissions=Permission::paginate(15);
         dd($permissions);
+    }
+
+    public function roleindex(){
+        $roles=Role::paginate(15);
+        dd($roles);
     }
 
 }

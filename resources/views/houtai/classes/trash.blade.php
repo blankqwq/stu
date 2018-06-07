@@ -1,16 +1,16 @@
-@extends('layouts.admin')
+@extends('houtai.layouts.index')
 @section('classes','active')
-@section('classes-all','active')
-@section('content')
+@section('classes-trash','active')
 
+@section('content')
     <section class="content-header">
         <h1>
-            用户管理
+            班级回收站
             <small>Control panel</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">users/me</li>
+            <li class="active">班级回收站</li>
         </ol>
     </section>
     <script>
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <div class="box-body table-responsive no-padding">
-                        <form action="/users/del" method="post">
+                        <form action="/admin/classes/restore" method="post">
                             <table class="table table-hover">
                                 <tr>
                                     <th>#</th>
@@ -73,12 +73,11 @@
                                     <th>操作</th>
                                 </tr>
                                 {{ csrf_field() }}
-                                {{ method_field('delete') }}
                                 @foreach($classes as $classe)
                                     <tr>
-                                        <td>@if(\Illuminate\Support\Facades\Auth::id()!==$classe->id)
-                                                <input type="checkbox" value="{{ $classe->id }}" name="ids[]">
-                                            @endif</td>
+                                        <td>
+                                            <input type="checkbox" value="{{ $classe->id }}" name="ids[]">
+                                        </td>
                                         <td>{{ $classe->name }}</td>
                                         <td>
                                             @foreach($classe->types as $type)
@@ -87,13 +86,13 @@
                                         <td>{{ $classe->created_at }}</td>
                                         <td>{{ $classe->number }}</td>
                                         <td>{{$classe->boss->email }}</td>
-                                        <td><a href="/classes/{{ $classe->id }}" id="read"><span
+                                        <td><a href="/admin/classes/{{ $classe->id }}" id="read"><span
                                                         class="label label-warning">查看</span></a>
                                             <a href="/class/{{ $classe->id }}"><span
                                                         class="label label-success">成员查看</span>
                                             </a>
-                                            <a href="/join/class/{{$classe->id}}"><span
-                                                        class="label label-success">加入班级</span>
+                                            <a href="/classhome/{{$classe->id}}/index.html"><span
+                                                        class="label label-success">班级首页</span>
                                             </a>
                                         </td>
                                     </tr>
@@ -105,7 +104,8 @@
                             </table>
 
                             <div class="box-footer">
-                                <button class="btn btn-google btn-sm ">删除</button>
+                                <button class="btn btn-google btn-sm ">恢复</button>
+
                                 {{ $classes->links() }}
                             </div>
                         </form>
@@ -116,9 +116,5 @@
 
             </div>
         </div>
-
-
     </section>
-
-
 @endsection

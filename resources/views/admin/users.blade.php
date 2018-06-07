@@ -1,5 +1,6 @@
 @extends('layouts.admin')
-
+@section('users','active')
+@section('users-me','active')
 @section('content')
     <section class="content-header">
         <h1>

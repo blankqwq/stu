@@ -1,5 +1,6 @@
 @extends('layouts.admin')
-
+@section('message','active')
+@section('message-noread','active')
 @section('content')
     <script>
         $(document).ready(function () {
