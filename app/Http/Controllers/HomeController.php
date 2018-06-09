@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
+        $classe=Auth::user()->classes()->first();
+        $stuhomework=Auth::user()->stuhomeworks()->first();
+        $messages=Auth::user()->messages()->count();
+        $file=Auth::user()->files()->count();
+        return view('admin.index',compact('classe','file','messages','stuhomework'));
     }
 }

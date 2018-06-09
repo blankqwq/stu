@@ -1,5 +1,6 @@
 @extends('houtai.layouts.index')
-
+@section('zhu-menu','active')
+@section('zhu-menu-home','active')
 @section('content')
 
     <section class="content-header">
@@ -14,7 +15,6 @@
     </section>
 
     <section class="content">
-        <!-- Small boxes (Stat box) -->
         <div class="row">
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
@@ -35,7 +35,7 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>{{$homework_count}}<sup style="font-size: 20px">份</sup></h3>
+                        <h3>{{$stuhomework->}}<sup style="font-size: 20px">份</sup></h3>
 
                         <p>作业</p>
                     </div>
@@ -75,10 +75,7 @@
                     <a href="#" class="small-box-footer">题库管理 <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <!-- ./col -->
         </div>
-
-
     </section>
 
 @endsection

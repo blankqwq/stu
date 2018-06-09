@@ -39,15 +39,18 @@ class StuHomeworkController extends Controller
             $input['attachment'] = $this->upload($request);
             $input['user_id'] = Auth::id();
             $input['homework_id']=$homework->id;
-            User::find($homework->user_id)->messages()->create([
+            User::find($homework->teacher_id)->messages()->create([
                'content'=>'您收到一份作业，请批改',
-               'title'=>Auth::user()->getinfo()->name.'提交了一份作业<'.$homework->title.'>',
+               'type_id'=>'3',
+               'user_id'=>Auth::id(),
+               'can_reply'=>'0',
+               'title'=>Auth::user()->getinfo()->first()->name.'提交了一份作业<'.$homework->title.'>',
             ]);
             $stuhomework=StuHomework::create($input);
         }catch (\Exception $exception){
             abort('500');
         }
-        return "提交成功";
+        return redirect(url('classhome/'.$id.'/homework/index.html'));
     }
 
     public function upload(Request $request)

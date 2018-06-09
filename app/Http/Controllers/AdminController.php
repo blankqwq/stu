@@ -50,15 +50,5 @@ class AdminController extends Controller
         dd($tikus);
     }
 
-    // 权限管理首页
-    public function permissionindex(){
-        $permissions=Permission::paginate(15);
-        dd($permissions);
-    }
-
-    public function roleindex(){
-        $roles=Role::paginate(15);
-        dd($roles);
-    }
 
 }

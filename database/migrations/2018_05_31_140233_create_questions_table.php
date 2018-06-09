@@ -39,7 +39,7 @@ class CreateQuestionsTable extends Migration
             $table->integer('tiku_id')->unsigned()->comment('关联的题库id');
             $table->integer('type_id')->unsigned()->comment('类型');
             $table->string('question')->comment('问题');;
-            $table->string('optiona')->nullable()->comment('选项');;
+            $table->string('optiona')->nullable()->comment('选项');
             $table->string('optionb')->nullable();
             $table->string('optionc')->nullable();
             $table->string('optiond')->nullable();

@@ -18,7 +18,7 @@ class CreateUserInfosTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('name')->comment('姓名');
             $table->string('sign')->nullable()->comment('个性签名');
-            $table->string('avatar')->default('/upload/images/default.png')->comment('头像');
+            $table->string('avatar')->default('/storage/upload/user/default.jpeg')->comment('头像');
             $table->string('sex',2)->comment('性别');
             $table->timestamps();
             $table->softDeletes();

@@ -20,6 +20,7 @@ class CreateFractionsTable extends Migration
             $table->unsignedSmallInteger('fraction');
             $table->timestamps();
             $table->softDeletes();
+
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('task_id')->references('id')->on('question_tasks')

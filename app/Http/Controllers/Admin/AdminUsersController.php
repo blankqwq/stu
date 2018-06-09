@@ -137,4 +137,13 @@ class AdminUsersController extends Controller
         }
         return redirect('/admin/users/index.html');
     }
+
+    public function search(){
+        return view('houtai.user.search');
+    }
+
+
+    public function searchto(){
+
+    }
 }

@@ -17,20 +17,24 @@
     </section>
 
     <section class="content">
-        <!-- Small boxes (Stat box) -->
         <div class="row">
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3>
+                            @if($classe)
+                                {{$classe->name}}
+                            @else
+                                0
+                            @endif</h3>
 
-                        <p>New Orders</p>
+                        <p>最近加入的班级</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="/classes/me" class="small-box-footer">更多 <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -38,9 +42,13 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <h3>@if($stuhomework)
+                            {{$stuhomework->fraction}}
+                                @else
+                                0
+                                @endif<sup style="font-size: 20px">%</sup></h3>
 
-                        <p>Bounce Rate</p>
+                        <p>分数</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
@@ -53,14 +61,14 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>44</h3>
+                        <h3>{{$file}}</h3>
 
-                        <p>User Registrations</p>
+                        <p>文件数量</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="/filesystem" class="small-box-footer">更多 <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -68,46 +76,18 @@
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
-                        <h3>65</h3>
+                        <h3>{{$messages}}</h3>
 
-                        <p>Unique Visitors</p>
+                        <p>消息数量</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="/message/index.html" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
         </div>
-        <div class="row">
-            <!-- Left col -->
-            <section class="col-lg-7 connectedSortable">
-                <!-- Custom tabs (Charts with tabs)-->
-                <div class="nav-tabs-custom">
-                    <!-- Tabs within a box -->
-                    <ul class="nav nav-tabs pull-right">
-                        <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
-                        <li><a href="#sales-chart" data-toggle="tab">Donut</a></li>
-                        <li class="pull-left header"><i class="fa fa-inbox"></i> Sales</li>
-                    </ul>
-                    <div class="tab-content no-padding">
-                        <!-- Morris chart - Sales -->
-                        <div class="chart tab-pane active" id="revenue-chart"
-                             style="position: relative; height: 300px;"></div>
-                        <div class="chart tab-pane" id="sales-chart"
-                             style="position: relative; height: 300px;"></div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- /.row -->
-        <!-- Main row -->
-
-                        <!-- /.row -->
-
-        <!-- /.box -->
 
     </section>
             <!-- right col -->

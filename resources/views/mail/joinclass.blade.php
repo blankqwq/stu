@@ -1,1 +1,3 @@
-<h1>加入提醒邮件</h1>
+<h1>{{$message->title}}</h1>
+
+<p> {{$message->content}}</p>

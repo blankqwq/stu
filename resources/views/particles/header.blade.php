@@ -51,7 +51,7 @@
                                     <a href="/users/me">信息</a>
                                 </div>
                                 <div class="col-xs-4 text-center">
-                                    <a href="#">Sales</a>
+                                    <a href="#">~~~~</a>
                                 </div>
                                 <div class="col-xs-4 text-center">
                                     <a href="/classes/me">班级</a>

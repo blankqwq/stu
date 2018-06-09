@@ -38,21 +38,21 @@
                     {{--<li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>--}}
                 </ul>
             </li>
-            <li class="treeview @yield('homework')">
-                <a href="#">
-                    <i class="fa fa-files-o"></i>
-                    <span>作业系统</span>
-                    <span class="pull-right-container">
-              <span class="label label-primary pull-right">4</span>
-            </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-                    <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-                    <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                    <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
-                </ul>
-            </li>
+            {{--<li class="treeview @yield('homework')">--}}
+                {{--<a href="#">--}}
+                    {{--<i class="fa fa-files-o"></i>--}}
+                    {{--<span>作业系统</span>--}}
+                    {{--<span class="pull-right-container">--}}
+              {{--<span class="label label-primary pull-right">4</span>--}}
+            {{--</span>--}}
+                {{--</a>--}}
+                {{--<ul class="treeview-menu">--}}
+                    {{--<li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>--}}
+                    {{--<li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>--}}
+                    {{--<li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>--}}
+                    {{--<li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
             <li>
                 <a href="pages/widgets.html">
                     <i class="fa fa-th"></i> <span>在线聊天系统</span>
@@ -112,19 +112,19 @@
 
                 </ul>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-edit"></i> <span>问答系统</span>
-                    <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> 在线提问</a></li>
-                    <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> 问题列表</a></li>
-                    <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> 系统管理</a></li>
-                </ul>
-            </li>
+            {{--<li class="treeview">--}}
+                {{--<a href="#">--}}
+                    {{--<i class="fa fa-edit"></i> <span>问答系统</span>--}}
+                    {{--<span class="pull-right-container">--}}
+              {{--<i class="fa fa-angle-left pull-right"></i>--}}
+            {{--</span>--}}
+                {{--</a>--}}
+                {{--<ul class="treeview-menu">--}}
+                    {{--<li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> 在线提问</a></li>--}}
+                    {{--<li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> 问题列表</a></li>--}}
+                    {{--<li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> 系统管理</a></li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-table"></i> <span>答题系统</span>
@@ -148,6 +148,7 @@
             </span>
                 </a>
             </li>
+
             <li class="treeview  @yield('files')">
                 <a href="#">
                     <i class="fa fa-folder"></i> <span>文件管理</span>
@@ -156,15 +157,17 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="@yield('files-class')"><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> 班级文件</a></li>
+                    <li class="@yield('files-class')"><a href="/classfile"><i class="fa fa-circle-o"></i> 班级文件</a></li>
                     <li class="@yield('files-me')"><a href="/filesystem"><i class="fa fa-circle-o"></i> 我的文件</a></li>
                 </ul>
             </li>
+
             <li class="header">LABELS</li>
-            <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+            @ability('admin,owner','')
+            <li><a href="/admin/home.html"><i class="fa fa-circle-o text-red"></i> <span>后台管理</span></a></li>
+            @endability
             <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
         </ul>
     </section>
-    <!-- /.sidebar -->
 </aside>

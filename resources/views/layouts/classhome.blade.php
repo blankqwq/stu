@@ -47,7 +47,6 @@
                             <li class="@yield('send')"><a href="/classhome/{{$classe->id}}/write.html"><i
                                             class="fa fa-filter"></i> 发送</a>
                             </li>
-                            <li class="@yield('upload')"><a href="#"><i class="fa fa-trash-o"></i> 上传</a></li>
                             @endability
                         </ul>
                     </div>

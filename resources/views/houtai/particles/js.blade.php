@@ -75,46 +75,46 @@
     }
     a();
 
-        setInterval(function () {
-            htmlobj1 = $.ajax(
-                {
-                    type: "GET",
-                    url: "{{url('/message/getshixing')}}",
-                    success: function () {
-                        $('#shixing').empty();
-                        $('#shixing').html(htmlobj1.responseText);
-                    },
-                    error: function () {
-                    }
-
-                });
-
-        }, 10000);
     setInterval(function () {
-    htmlobj2 = $.ajax(
-        {
-            type: "GET",
-            url: "{{url('/message/shengqing')}}",
-            success: function () {
-                $('#shengqing').empty();
-                $('#shengqing').html(htmlobj2.responseText);
-            },
-            error: function () {
-            }
+        htmlobj1 = $.ajax(
+            {
+                type: "GET",
+                url: "{{url('/message/getshixing')}}",
+                success: function () {
+                    $('#shixing').empty();
+                    $('#shixing').html(htmlobj1.responseText);
+                },
+                error: function () {
+                }
 
-        });
-    htmlobj3 = $.ajax(
-        {
-            type: "GET",
-            url: "{{url('/message/banji')}}",
-            success: function () {
-                $('#banji').empty();
-                $('#banji').html(htmlobj3.responseText);
-            },
-            error: function () {
-            }
+            });
 
-        });},8000);
+    }, 10000);
+    setInterval(function () {
+        htmlobj2 = $.ajax(
+            {
+                type: "GET",
+                url: "{{url('/message/shengqing')}}",
+                success: function () {
+                    $('#shengqing').empty();
+                    $('#shengqing').html(htmlobj2.responseText);
+                },
+                error: function () {
+                }
+
+            });
+        htmlobj3 = $.ajax(
+            {
+                type: "GET",
+                url: "{{url('/message/banji')}}",
+                success: function () {
+                    $('#banji').empty();
+                    $('#banji').html(htmlobj3.responseText);
+                },
+                error: function () {
+                }
+
+            });},8000);
 
 
 

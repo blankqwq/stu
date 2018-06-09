@@ -33,6 +33,6 @@ class RequestJoinClass extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.joinclass');
+        return $this->view('mail.joinclass')->with('message',$this->message);
     }
 }

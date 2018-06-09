@@ -18,7 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/testmail',function (){
+    $user
+});
 //Route::post('/register', 'AuthController@register')->name('register');
 Route::get('/1', function () {
     \Illuminate\Support\Facades\Auth::user()->delete();
@@ -65,7 +67,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('agree/classes/{id}', 'ClassController@agree');
         Route::post('disagree/classes/{id}', 'ClassController@disagree');
         //删除班级
-
     });
 
     //    获取班级成员
@@ -198,6 +199,15 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('classhome/{id}/homework/{homework}', 'HomeworkController@update');
 
         Route::delete('classhome/{id}/homework/{homework}', 'HomeworkController@destroy');
+
+        Route::get('classhome/{id}/file.html', 'ClassHomeFileController@index');
+        Route::get('classhome/{id}/file/{file}', 'ClassHomeFileController@show');
+        //创建
+        Route::post('classhome/{id}/filesystem/folder/{file}','ClassHomeFileController@storefolder');
+        Route::post('classhome/{id}/filesystem/file/{file}','ClassHomeFileController@storefile');
+        //删除
+        Route::delete('classhome/{id}/filesystem/del','ClassHomeFileController@destroy');
+
 //        查询已交作业
 
 
@@ -213,13 +223,15 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     #______________________文件系统
-
+    Route::delete('filesystem/del','FileSystemController@destroy');
     Route::resource('filesystem', 'FileSystemController',
-        array('only' => array('index','show', 'update', 'store')));
+        array('only' => array('index','show',)));
     Route::post('filesystem/new/folder/{id}','FileSystemController@storefolder');
     Route::post('filesystem/update/file/{id}','FileSystemController@storefile');
+    Route::get('classfile','FileSystemController@classfile');
 
-
+//    答题系统
+    Route::resource('A','DatiController');
 
     #_______________________________________________黄金分割线---学生路由
     Route::group(['prefix' => 'student', 'middleware' => ['role:student']], function () {
@@ -265,6 +277,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['namespace' => 'Admin'], function () {
 //            ______用户管理_______
             Route::get('users/trash', 'AdminUsersController@trash');
+            Route::get('users/search', 'AdminUsersController@search');
+            Route::post('users/search', 'AdminUsersController@searchto');
             Route::post('users/restore', 'AdminUsersController@restore');
             Route::resource('users', 'AdminUsersController',
                 array('only' => array('show', 'update', 'store')));
@@ -292,10 +306,33 @@ Route::group(['middleware' => 'auth'], function () {
 
 //            __________权限管理_______
 
+            Route::resource('permissions', 'AdminPermissionController',
+                array('only' => array('show', 'update', 'store', 'index')));
+            Route::resource('roles', 'AdminRoleController',
+                array('only' => array('show', 'update', 'store', 'index')));
 
 //            ________题库管理_________
 
+
 //            _______文件管理______
+
+            Route::get('userfile','AdminFileController@userindex');
+            Route::get('classfile','AdminFileController@classinex');
+
+            Route::get('userfile/{id}','AdminFileController@usershow');
+            Route::get('classfile/{id}','AdminFileController@classshow');
+
+            Route::delete('userfile','AdminFileController@userdestroy');
+            Route::delete('classfile','AdminFileController@classdestroy');
+//            消息管理
+            Route::resource('messages', 'AdminMessageController',
+                array('only' => array('show', 'store', 'index','create')));
+            //删除
+            Route::delete('messages', 'AdminMessageController@destroy');
+
+//            #作业管理
+
+
         });
 
 

@@ -38,21 +38,19 @@
                     {{--<li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>--}}
                 </ul>
             </li>
-            <li class="treeview @yield('homework')">
-                <a href="#">
-                    <i class="fa fa-files-o"></i>
-                    <span>作业管理</span>
-                    <span class="pull-right-container">
-              <span class="label label-primary pull-right">4</span>
-            </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li class="@yield('homework-all')"><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> 全部作业</a></li>
-                    <li class="@yield('homework-search')"><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> 作业查询</a></li>
-                    <li class="@yield('homework-post')"><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> 发布作业</a></li>
-                    <li class="@yield('homework-wu')"><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> </a></li>
-                </ul>
-            </li>
+            {{--<li class="treeview @yield('homework')">--}}
+                {{--<a href="#">--}}
+                    {{--<i class="fa fa-files-o"></i>--}}
+                    {{--<span>作业管理</span>--}}
+                    {{--<span class="pull-right-container">--}}
+              {{--<span class="label label-primary pull-right">4</span>--}}
+            {{--</span>--}}
+                {{--</a>--}}
+                {{--<ul class="treeview-menu">--}}
+                    {{--<li class="@yield('homework-all')"><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> 全部作业</a></li>--}}
+                    {{--<li class="@yield('homework-search')"><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> 作业查询</a></li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
             <li>
                 <a href="pages/widgets.html">
                     <i class="fa fa-th"></i> <span>在线聊天系统管理</span>
@@ -97,7 +95,7 @@
 
                 </ul>
             </li>
-            <li class="treeview">
+            <li class="treeview @yield('permissions')">
                 <a href="#">
                     <i class="fa fa-envelope"></i>
                     <span>权限设定</span>
@@ -106,25 +104,20 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/message/index.html"><i class="fa fa-circle-o"></i> 创建权限</a></li>
-                    <li><a href="/message/receive.html"><i class="fa fa-circle-o"></i> 权限管理</a></li>
-                    <li><a href="/message/send.html"><i class="fa fa-circle-o"></i> 分配权限</a></li>
-                    <li><a href="/message/trash.html"><i class="fa fa-circle-o"></i> 权限回收站</a></li>
-
+                    <li class="@yield('permissions-index')"><a href="/admin/permissions"><i class="fa fa-circle-o"></i> 权限管理</a></li>
+                    <li class="@yield('permissions-role')"><a href="/admin/roles"><i class="fa fa-circle-o"></i> 角色管理</a></li>
                 </ul>
             </li>
-            <li class="treeview">
+            <li class="treeview @yield('messages')">
                 <a href="#">
-                    <i class="fa fa-edit"></i> <span>题库管理</span>
+                    <i class="fa fa-edit"></i> <span>消息管理</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> 创建题库</a></li>
-                    <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> 题库管理</a></li>
-                    <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> 用户分数</a></li>
-                    <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> 系统管理</a></li>
+                    <li class="@yield('messages-send')"><a href="/admin/messages/create"><i class="fa fa-circle-o"></i> 消息发送</a></li>
+                    <li class="@yield('messages-all')"><a href="/admin/messages"><i class="fa fa-circle-o"></i> 消息目录</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -150,20 +143,20 @@
             {{--</span>--}}
                 {{--</a>--}}
             {{--</li>--}}
-            <li class="treeview">
+            <li class="treeview @yield('files')">
                 <a href="#">
                     <i class="fa fa-folder"></i> <span>文件管理</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
-                <ul class="treeview-menu">
-                    <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> 班级文件管理</a></li>
-                    <li><a href="pages/examples/profile.html"><i class="fa fa-circle-o"></i> 用户文件管理</a></li>
+                <ul class="treeview-menu ">
+                    <li class=" @yield('files-classes')"><a href="/admin/classfile"><i class="fa fa-circle-o"></i> 班级文件管理</a></li>
+                    <li class=" @yield('files-users')"><a href="/admin/userfile"><i class="fa fa-circle-o"></i> 用户文件管理</a></li>
                 </ul>
             </li>
-            <li class="header">LABELS</li>
-            <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+            <li class="header">主页</li>
+            <li><a href="/home"><i class="fa fa-circle-o text-red"></i> <span>返回</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
         </ul>

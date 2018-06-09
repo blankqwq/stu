@@ -133,7 +133,7 @@ class ClassController extends Controller
     {
         if (Auth::user()->classes()->find($id))
             return "<script>alert('您已经加入了该团体');window.location.href='/classhome/" . $id . "/index.html'</script>";
-        $classe = Classes::where('user_allow', '>', 1)->find($id);
+        $classe = Classes::where('user_allow', '>=', 1)->find($id);
         return view('admin.class.join', compact('classe'));
     }
 

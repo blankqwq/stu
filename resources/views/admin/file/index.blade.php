@@ -60,12 +60,11 @@
                         </div>
                     </div>
                     <div class="box-body table-responsive no-padding">
-                        <form action="/classes/deluser/" method="post">
+                        <form action="/filesystem/del" method="post">
                             <table class="table table-hover">
                                 <tr>
                                     <th>#</th>
                                     <th>名称</th>
-                                    <th>类型</th>
                                     <th>创建时间</th>
                                     <th>操作</th>
                                 </tr>
@@ -84,7 +83,6 @@
                                                 <a href="{{$file->url}}" target="_blank"
                                                    class="glyphicon glyphicon-save-file">  {{ $file->name }}</a>
                                             @endif</td>
-                                        <td>{{ $file->type }}</td>
                                         <td>{{ $file->created_at }}</td>
                                         <td><a href="/filesystem/read/{{$file->id}}" id="read"><span
                                                         class="label label-warning">查看</span></a>
@@ -100,7 +98,7 @@
                             </table>
 
                             <div class="box-footer">
-                                <button class="btn btn-google btn-sm ">删除文件</button>
+                                <button class="btn btn-google btn-sm " type="submit">删除文件</button>
                                 <button onclick="$('#users-content').empty();" type="button"
                                         class="btn btn-facebook btn-sm " data-toggle="modal" data-target="#myModal">
                                     新建文件夹

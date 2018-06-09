@@ -63,7 +63,7 @@ class MessageController extends Controller
         ]);
         $ids=$request->input('ids');
         foreach ($ids as $id){
-            $message = Message::find($id);
+            $message =Auth::user()->messages()->find($id);
             if ($message){
                 $message->delete();
             }
@@ -80,7 +80,7 @@ class MessageController extends Controller
         ]);
         $ids=$request->input('ids');
         foreach ($ids as $id){
-            $message = Message::withTrashed()->find($id);
+            $message =Auth::user()->messages()->withTrashed()->find($id);
             if ($message){
                 $message->restore();
             }
@@ -166,7 +166,7 @@ class MessageController extends Controller
 
 
     public function xiangqing($id){
-        $onemessage=Message::withTrashed()->with('sender')->find($id);
+        $onemessage=Auth::user()->messages()->withTrashed()->with('sender')->find($id);
         return view('admin.message.xiangqing',compact('onemessage'));
     }
 

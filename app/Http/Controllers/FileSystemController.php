@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\File;
-use App\FileSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -21,21 +20,6 @@ class FileSystemController extends Controller
         return view('admin.file.index', compact('files'));
     }
 
-    public function upload(Request $request)
-    {
-        if ($request->hasFile('file')) {
-            $file = $request->attachment;
-            $filename=Auth::user()->getinfo()->first()->name.date("Y/m/d").$file->getClientOriginalName();
-            $res = Storage::disk('qiniu')->put($filename, file_get_contents($file->getRealPath()));
-            if ($res){
-                $ret=Storage::disk('qiniu')->downloadUrl($filename)->setDownload($filename);
-                return $ret->geturl();
-            }else{
-                abort('500');
-            }
-        }
-        return "";
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -106,39 +90,34 @@ class FileSystemController extends Controller
         }
 
         /**
-         * Show the form for editing the specified resource.
-         *
-         * @param  int $id
-         * @return \Illuminate\Http\Response
-         */
-        public
-        function edit($id)
-        {
-            //
-        }
-
-        /**
-         * Update the specified resource in storage.
-         *
-         * @param  \Illuminate\Http\Request $request
-         * @param  int $id
-         * @return \Illuminate\Http\Response
-         */
-        public
-        function update(Request $request, $id)
-        {
-            //
-        }
-
-        /**
          * Remove the specified resource from storage.
          *
          * @param  int $id
          * @return \Illuminate\Http\Response
          */
-        public
-        function destroy($id)
+        public function destroy(Request $request)
         {
-            //
+            $this->validate($request, [
+                'ids.*' => 'required|exists:files,id',
+            ]);
+            $ids = $request->input('ids');
+            try{
+                foreach ($ids as $id){
+                    if (Auth::user()->files()->find($id)){
+                        Auth::user()->files()->find($id)->delete();
+                        File::where('path','like','%'.$id.'%')->delete();
+                    }
+                }
+                return redirect('/filesystem');
+            }catch (\Exception $exception){
+                abort('400');
+            }
+
+        }
+
+        public function classfile(){
+            $classes=Auth::user()->classes()->with('boss','homeworks')->withCount('users')->paginate(15);
+            return view('admin.file.classes',compact('classes'));
+
         }
     }
